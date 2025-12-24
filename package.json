@@ -1,6 +1,6 @@
 {
   "name": "@sunbay/sunbay-nexus-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official Node.js SDK for Sunbay Nexus Payment Platform",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,7 +22,7 @@
     "nodejs"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "axios": "^1.6.0",

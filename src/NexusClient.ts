@@ -38,19 +38,6 @@ import { BatchCloseResponse, BatchCloseResponseImpl } from './models/response/Ba
  *
  * @since 2025-01-24
  */
-interface Builder {
-  _apiKey?: string;
-  _baseUrl?: string;
-  _connectTimeout?: number;
-  _readTimeout?: number;
-  _maxRetries?: number;
-  _maxTotal?: number;
-  _maxPerRoute?: number;
-  _logger?: Logger;
-}
-
-type BuilderType = Builder;
-
 export class NexusClient {
   private static readonly DEFAULT_BASE_URL = 'https://open.sunbay.us';
   private static readonly DEFAULT_CONNECT_TIMEOUT = 30000;
@@ -61,16 +48,28 @@ export class NexusClient {
 
   private readonly httpClient: HttpClient;
 
-  private constructor(builder: Builder) {
+  /**
+   * Create a new NexusClient instance
+   * 
+   * @param config client configuration
+   */
+  constructor(config: ClientConfig) {
+    if (!config || !config.apiKey || config.apiKey.length === 0) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'API key cannot be null or empty'
+      );
+    }
+
     this.httpClient = new HttpClient(
-      builder._apiKey!,
-      builder._baseUrl || NexusClient.DEFAULT_BASE_URL,
-      builder._connectTimeout || NexusClient.DEFAULT_CONNECT_TIMEOUT,
-      builder._readTimeout || NexusClient.DEFAULT_READ_TIMEOUT,
-      builder._maxRetries || NexusClient.DEFAULT_MAX_RETRIES,
-      builder._maxTotal || NexusClient.DEFAULT_MAX_TOTAL,
-      builder._maxPerRoute || NexusClient.DEFAULT_MAX_PER_ROUTE,
-      builder._logger
+      config.apiKey,
+      config.baseUrl || NexusClient.DEFAULT_BASE_URL,
+      config.connectTimeout || NexusClient.DEFAULT_CONNECT_TIMEOUT,
+      config.readTimeout || NexusClient.DEFAULT_READ_TIMEOUT,
+      config.maxRetries || NexusClient.DEFAULT_MAX_RETRIES,
+      config.maxTotal || NexusClient.DEFAULT_MAX_TOTAL,
+      config.maxPerRoute || NexusClient.DEFAULT_MAX_PER_ROUTE,
+      config.logger
     );
   }
 
@@ -259,123 +258,5 @@ export class NexusClient {
     return this.httpClient.post(ApiConstants.PATH_BATCH_CLOSE, request, BatchCloseResponseImpl);
   }
 
-  /**
-   * Builder for NexusClient
-   */
-  public static Builder = class Builder implements BuilderType {
-    public _apiKey?: string;
-    public _baseUrl?: string;
-    public _connectTimeout?: number;
-    public _readTimeout?: number;
-    public _maxRetries?: number;
-    public _maxTotal?: number;
-    public _maxPerRoute?: number;
-    public _logger?: Logger;
-
-    public apiKey(apiKey: string): this {
-      this._apiKey = apiKey;
-      return this;
-    }
-
-    public baseUrl(baseUrl: string): this {
-      this._baseUrl = baseUrl;
-      return this;
-    }
-
-    public connectTimeout(connectTimeout: number): this {
-      this._connectTimeout = connectTimeout;
-      return this;
-    }
-
-    public readTimeout(readTimeout: number): this {
-      this._readTimeout = readTimeout;
-      return this;
-    }
-
-    public maxRetries(maxRetries: number): this {
-      this._maxRetries = maxRetries;
-      return this;
-    }
-
-    /**
-     * Set maximum total connections in the connection pool
-     *
-     * @param maxTotal maximum total connections (default: 200)
-     * @return builder
-     */
-    public maxTotal(maxTotal: number): this {
-      this._maxTotal = maxTotal;
-      return this;
-    }
-
-    /**
-     * Set maximum connections per route in the connection pool
-     *
-     * @param maxPerRoute maximum connections per route (default: 20)
-     * @return builder
-     */
-    public maxPerRoute(maxPerRoute: number): this {
-      this._maxPerRoute = maxPerRoute;
-      return this;
-    }
-
-    /**
-     * Set logger instance
-     * <p>
-     * Users can optionally provide a logger object with debug/info/warn/error methods.
-     * If not provided, DefaultLogger using console will be used.
-     * </p>
-     *
-     * @param logger logger instance
-     * @return builder
-     */
-    public logger(logger: Logger): this {
-      this._logger = logger;
-      return this;
-    }
-
-    public build(): NexusClient {
-      if (!this._apiKey || this._apiKey.length === 0) {
-        throw new SunbayBusinessException(
-          ApiConstants.ERROR_CODE_PARAMETER_ERROR,
-          'API key cannot be null or empty'
-        );
-      }
-      return new NexusClient(this);
-    }
-  };
-
-  /**
-   * Create client from config object
-   *
-   * @param config client configuration
-   * @return NexusClient instance
-   */
-  public static fromConfig(config: ClientConfig): NexusClient {
-    const builder = new NexusClient.Builder();
-    builder.apiKey(config.apiKey);
-    if (config.baseUrl) {
-      builder.baseUrl(config.baseUrl);
-    }
-    if (config.connectTimeout) {
-      builder.connectTimeout(config.connectTimeout);
-    }
-    if (config.readTimeout) {
-      builder.readTimeout(config.readTimeout);
-    }
-    if (config.maxRetries) {
-      builder.maxRetries(config.maxRetries);
-    }
-    if (config.maxTotal) {
-      builder.maxTotal(config.maxTotal);
-    }
-    if (config.maxPerRoute) {
-      builder.maxPerRoute(config.maxPerRoute);
-    }
-    if (config.logger) {
-      builder.logger(config.logger);
-    }
-    return builder.build();
-  }
 }
 

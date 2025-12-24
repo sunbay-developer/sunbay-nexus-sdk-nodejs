@@ -294,7 +294,7 @@ export class HttpClient {
         throw new SunbayNetworkException(errorMessage, false);
       }
     } catch (error: any) {
-      if (error instanceof SunbayBusinessException || error instanceof SunbayNetworkException) {
+      if (error?.name === 'SunbayBusinessException' || error?.name === 'SunbayNetworkException') {
         throw error;
       }
 

@@ -5,12 +5,11 @@ Official Node.js SDK for Sunbay Nexus Payment Platform
 ## Features
 
 - ✅ Simple and intuitive API
-- ✅ Builder pattern for easy request construction
-- ✅ Support Node.js 14+
+- ✅ Support Node.js 18+
 - ✅ Automatic authentication
 - ✅ Automatic retry for GET requests
 - ✅ Comprehensive exception handling
-- ✅ TypeScript support with full type definitions
+- ✅ Works with both JavaScript and TypeScript (compiled to JavaScript, includes type definitions)
 - ✅ Minimal dependencies
 - ✅ Flexible logging support (console by default, compatible with winston/pino)
 
@@ -28,40 +27,108 @@ yarn add @sunbay/sunbay-nexus-sdk
 
 ## Quick Start
 
+> **Note**: This SDK is written in TypeScript but compiled to JavaScript. You can use it in both **JavaScript** and **TypeScript** projects without any compilation step. The SDK is already compiled and ready to use.
+
 ### 1. Initialize Client
 
 The `NexusClient` is thread-safe and can be reused across multiple requests. Create once and reuse:
 
-**Option 1: Builder Pattern (Recommended)**
-
-```typescript
-import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
+**JavaScript (CommonJS)**
+```javascript
+const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
 
 // Create once and reuse
-const client = new NexusClient.Builder()
-  .apiKey(process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}')
-  .baseUrl('https://open.sunbay.us')
-  .build();
-
-// Use the client throughout your application
-```
-
-**Option 2: Config Object**
-
-```typescript
-import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
-
-const client = NexusClient.fromConfig({
+const client = new NexusClient({
   apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
   baseUrl: 'https://open.sunbay.us',
   connectTimeout: 30000,
   readTimeout: 60000,
   maxRetries: 3,
 });
+
+// Use the client throughout your application
+```
+
+**TypeScript / ES Modules**
+```typescript
+import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
+
+// Create once and reuse
+const client = new NexusClient({
+  apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
+  baseUrl: 'https://open.sunbay.us',
+  connectTimeout: 30000,
+  readTimeout: 60000,
+  maxRetries: 3,
+});
+
+// Use the client throughout your application
 ```
 
 ### 2. Sale Transaction
 
+**JavaScript (CommonJS)**
+```javascript
+const {
+  NexusClient,
+  SunbayBusinessException,
+  SunbayNetworkException,
+} = require('@sunbay/sunbay-nexus-sdk');
+
+// Assume client is already initialized
+// const client = ... (from step 1)
+
+// Set expiration time (optional)
+const expireTime = new Date();
+expireTime.setMinutes(expireTime.getMinutes() + 10);
+const timeExpire = expireTime.toISOString();
+
+// Build amount
+const amount = {
+  orderAmount: 100.00,
+  pricingCurrency: 'USD',
+};
+
+// Build sale request
+const request = {
+  appId: 'app_123456',
+  merchantId: 'mch_789012',
+  referenceOrderId: 'ORDER20231119001',
+  transactionRequestId: `PAY_REQ_${Date.now()}`,
+  amount: amount,
+  description: 'Product purchase',
+  terminalSn: 'T1234567890',
+  timeExpire: timeExpire,
+};
+
+// Execute transaction
+try {
+  const response = await client.sale(request);
+  if (response.isSuccess && response.isSuccess()) {
+    console.log('Transaction ID:', response.transactionId);
+    console.log('Reference Order ID:', response.referenceOrderId);
+  } else {
+    console.log('Error:', response.msg);
+    if (response.traceId) {
+      console.log('Trace ID:', response.traceId);
+    }
+  }
+} catch (error) {
+  if (error.name === 'SunbayNetworkException') {
+    console.error('Network Error:', error.message);
+    if (error.retryable) {
+      console.log('This error is retryable');
+    }
+  } else if (error.name === 'SunbayBusinessException') {
+    console.error('API Error:', error.code, error.message);
+    if (error.traceId) {
+      console.error('Trace ID:', error.traceId);
+    }
+  }
+}
+```
+
+**TypeScript / ES Modules**
 ```typescript
 import {
   NexusClient,
@@ -110,12 +177,12 @@ try {
     }
   }
 } catch (error) {
-  if (error instanceof SunbayNetworkException) {
+  if (error.name === 'SunbayNetworkException') {
     console.error('Network Error:', error.message);
     if (error.retryable) {
       console.log('This error is retryable');
     }
-  } else if (error instanceof SunbayBusinessException) {
+  } else if (error.name === 'SunbayBusinessException') {
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
       console.error('Trace ID:', error.traceId);
@@ -126,6 +193,23 @@ try {
 
 ### 3. Query Transaction
 
+**JavaScript (CommonJS)**
+```javascript
+const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
+
+// Query by transactionId
+const request = {
+  appId: 'app_123456',
+  merchantId: 'mch_789012',
+  transactionId: 'TXN20231119001',
+};
+
+const response = await client.query(request);
+console.log('Transaction Status:', response.transactionStatus);
+console.log('Transaction Type:', response.transactionType);
+```
+
+**TypeScript / ES Modules**
 ```typescript
 import { NexusClient, QueryRequest } from '@sunbay/sunbay-nexus-sdk';
 
@@ -172,20 +256,43 @@ The SDK throws two types of exceptions:
 - **SunbayNetworkException**: Network-related errors (connection timeout, network error, etc.)
 - **SunbayBusinessException**: Business logic errors (parameter validation, API business errors, etc.)
 
-Always catch `SunbayNetworkException` before `SunbayBusinessException`:
+Check error type by `error.name` property:
 
-```typescript
+**JavaScript (CommonJS)**
+```javascript
 try {
   const response = await client.sale(request);
   // Handle success
 } catch (error) {
-  if (error instanceof SunbayNetworkException) {
+  if (error.name === 'SunbayNetworkException') {
     // Network exception (e.g., connection timeout, network error)
     console.error('Network Error:', error.message);
     if (error.retryable) {
       // Can retry
     }
-  } else if (error instanceof SunbayBusinessException) {
+  } else if (error.name === 'SunbayBusinessException') {
+    // Business exception (e.g., insufficient funds, parameter error)
+    console.error('API Error:', error.code, error.message);
+    if (error.traceId) {
+      console.error('Trace ID:', error.traceId);
+    }
+  }
+}
+```
+
+**TypeScript / ES Modules**
+```typescript
+try {
+  const response = await client.sale(request);
+  // Handle success
+} catch (error: any) {
+  if (error.name === 'SunbayNetworkException') {
+    // Network exception (e.g., connection timeout, network error)
+    console.error('Network Error:', error.message);
+    if (error.retryable) {
+      // Can retry
+    }
+  } else if (error.name === 'SunbayBusinessException') {
     // Business exception (e.g., insufficient funds, parameter error)
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
@@ -197,16 +304,16 @@ try {
 
 ## Configuration
 
-```typescript
-const client = new NexusClient.Builder()
-  .apiKey('sk_test_xxx')
-  .baseUrl('https://open.sunbay.us')  // Default: https://open.sunbay.us
-  .connectTimeout(30000)               // Default: 30000ms (30 seconds)
-  .readTimeout(60000)                   // Default: 60000ms (60 seconds)
-  .maxRetries(3)                        // Default: 3 retries for GET requests
-  .maxTotal(200)                        // Default: 200 (max total connections in pool)
-  .maxPerRoute(20)                      // Default: 20 (max connections per route)
-  .build();
+```javascript
+const client = new NexusClient({
+  apiKey: 'sk_test_xxx',
+  baseUrl: 'https://open.sunbay.us',  // Default: https://open.sunbay.us
+  connectTimeout: 30000,               // Default: 30000ms (30 seconds)
+  readTimeout: 60000,                   // Default: 60000ms (60 seconds)
+  maxRetries: 3,                        // Default: 3 retries for GET requests
+  maxTotal: 200,                        // Default: 200 (max total connections in pool)
+  maxPerRoute: 20,                      // Default: 20 (max connections per route)
+});
 ```
 
 ### Connection Pool Configuration
@@ -232,39 +339,41 @@ These settings help optimize performance for high-concurrency scenarios.
 ## Logging
 
 - **Default**: SDK uses `console` for logging (zero dependencies). Logs include HTTP method, URL, headers (Authorization masked), request/response body, status codes, retries, and errors.
-- **Custom Logger**: Pass winston, pino, or any logger instance with `debug`/`info`/`warn`/`error` methods to `NexusClient.Builder().logger(logger)` or `NexusClient.fromConfig({ logger })`. Missing methods are automatically skipped.
+- **Custom Logger**: Pass winston, pino, or any logger instance with `debug`/`info`/`warn`/`error` methods to the `logger` option. Missing methods are automatically skipped.
 
 **Example: use default console logger (no extra config)**
 
-```typescript
-import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
+```javascript
+const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
 
-const client = new NexusClient.Builder()
-  .apiKey(process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}')
-  .build(); // Logs will be printed by console.* automatically
+const client = new NexusClient({
+  apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
+}); // Logs will be printed by console.* automatically
 ```
 
 **Example: use winston logger**
 
-```typescript
-import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
-import winston from 'winston';
+```javascript
+const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
+const winston = require('winston');
 
 const logger = winston.createLogger({
   level: 'info',
   transports: [new winston.transports.Console()],
 });
 
-const client = new NexusClient.Builder()
-  .apiKey(process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}')
-  .logger(logger) // SDK will call logger.debug/info/warn/error
-  .build();
+const client = new NexusClient({
+  apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
+  logger: logger, // SDK will call logger.debug/info/warn/error
+});
 ```
 
 ## Requirements
 
-- Node.js 14.0.0 or higher
-- TypeScript 5.3.0 or higher (optional, for TypeScript projects)
+- **Node.js 18.0.0 or higher** (required)
+- **TypeScript 5.3.0 or higher** (optional, only needed if your project uses TypeScript)
+
+> **Important**: The SDK is already compiled to JavaScript. You don't need TypeScript to use this SDK. If you're using JavaScript, just install and use it directly. If you're using TypeScript in your project, you'll get full type definitions and IntelliSense support automatically.
 
 ## Project Structure
 
