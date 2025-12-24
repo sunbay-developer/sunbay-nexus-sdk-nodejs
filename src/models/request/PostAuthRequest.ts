@@ -1,0 +1,59 @@
+import { PostAuthAmount } from '../common/PostAuthAmount';
+
+/**
+ * Post authorization request
+ *
+ * @since 2025-12-24
+ */
+export interface PostAuthRequest {
+  /**
+   * Application ID
+   */
+  appId: string;
+
+  /**
+   * Merchant ID
+   */
+  merchantId: string;
+
+  /**
+   * Original authorization transaction ID to complete. Either originalTransactionId or originalTransactionRequestId is required. If both are provided, originalTransactionId takes priority
+   */
+  originalTransactionId?: string;
+
+  /**
+   * Original authorization transaction request ID to complete. Either originalTransactionId or originalTransactionRequestId is required. If both are provided, originalTransactionId takes priority
+   */
+  originalTransactionRequestId?: string;
+
+  /**
+   * Transaction request ID for this post authorization transaction. Unique ID to identify this post authorization request, used as API idempotency control field
+   */
+  transactionRequestId: string;
+
+  /**
+   * Amount information
+   */
+  amount: PostAuthAmount;
+
+  /**
+   * Product description. Should be a real description representing the product information, may be displayed on some payment App billing pages
+   */
+  description: string;
+
+  /**
+   * Terminal serial number. SUNBAY provided financial POS device serial number for reading bank cards and processing PIN security operations
+   */
+  terminalSn: string;
+
+  /**
+   * Additional data, returned as-is, recommended to use JSON format
+   */
+  attach?: string;
+
+  /**
+   * Asynchronous notification URL
+   */
+  notifyUrl?: string;
+}
+

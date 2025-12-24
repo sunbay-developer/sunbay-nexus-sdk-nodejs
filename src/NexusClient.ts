@@ -1,0 +1,381 @@
+import { HttpClient } from './http/HttpClient';
+import { ApiConstants } from './constants/ApiConstants';
+import { SunbayBusinessException } from './exceptions/SunbayBusinessException';
+import { ClientConfig } from './client/ClientConfig';
+import { Logger } from './logger/Logger';
+
+// Request types
+import { SaleRequest } from './models/request/SaleRequest';
+import { AuthRequest } from './models/request/AuthRequest';
+import { ForcedAuthRequest } from './models/request/ForcedAuthRequest';
+import { IncrementalAuthRequest } from './models/request/IncrementalAuthRequest';
+import { PostAuthRequest } from './models/request/PostAuthRequest';
+import { RefundRequest } from './models/request/RefundRequest';
+import { VoidRequest } from './models/request/VoidRequest';
+import { AbortRequest } from './models/request/AbortRequest';
+import { TipAdjustRequest } from './models/request/TipAdjustRequest';
+import { QueryRequest } from './models/request/QueryRequest';
+import { BatchCloseRequest } from './models/request/BatchCloseRequest';
+
+// Response types
+import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
+import { AuthResponse, AuthResponseImpl } from './models/response/AuthResponse';
+import { ForcedAuthResponse, ForcedAuthResponseImpl } from './models/response/ForcedAuthResponse';
+import { IncrementalAuthResponse, IncrementalAuthResponseImpl } from './models/response/IncrementalAuthResponse';
+import { PostAuthResponse, PostAuthResponseImpl } from './models/response/PostAuthResponse';
+import { RefundResponse, RefundResponseImpl } from './models/response/RefundResponse';
+import { VoidResponse, VoidResponseImpl } from './models/response/VoidResponse';
+import { AbortResponse, AbortResponseImpl } from './models/response/AbortResponse';
+import { TipAdjustResponse, TipAdjustResponseImpl } from './models/response/TipAdjustResponse';
+import { QueryResponse, QueryResponseImpl } from './models/response/QueryResponse';
+import { BatchCloseResponse, BatchCloseResponseImpl } from './models/response/BatchCloseResponse';
+
+/**
+ * Sunbay SDK main client
+ * <p>
+ * This client is thread-safe and can be safely used by multiple threads.
+ * </p>
+ *
+ * @since 2025-01-24
+ */
+interface Builder {
+  _apiKey?: string;
+  _baseUrl?: string;
+  _connectTimeout?: number;
+  _readTimeout?: number;
+  _maxRetries?: number;
+  _maxTotal?: number;
+  _maxPerRoute?: number;
+  _logger?: Logger;
+}
+
+type BuilderType = Builder;
+
+export class NexusClient {
+  private static readonly DEFAULT_BASE_URL = 'https://open.sunbay.us';
+  private static readonly DEFAULT_CONNECT_TIMEOUT = 30000;
+  private static readonly DEFAULT_READ_TIMEOUT = 60000;
+  private static readonly DEFAULT_MAX_RETRIES = 3;
+  private static readonly DEFAULT_MAX_TOTAL = 200;
+  private static readonly DEFAULT_MAX_PER_ROUTE = 20;
+
+  private readonly httpClient: HttpClient;
+
+  private constructor(builder: Builder) {
+    this.httpClient = new HttpClient(
+      builder._apiKey!,
+      builder._baseUrl || NexusClient.DEFAULT_BASE_URL,
+      builder._connectTimeout || NexusClient.DEFAULT_CONNECT_TIMEOUT,
+      builder._readTimeout || NexusClient.DEFAULT_READ_TIMEOUT,
+      builder._maxRetries || NexusClient.DEFAULT_MAX_RETRIES,
+      builder._maxTotal || NexusClient.DEFAULT_MAX_TOTAL,
+      builder._maxPerRoute || NexusClient.DEFAULT_MAX_PER_ROUTE,
+      builder._logger
+    );
+  }
+
+  /**
+   * Sale transaction
+   *
+   * @param request sale request
+   * @return sale response
+   */
+  public async sale(request: SaleRequest): Promise<SaleResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'SaleRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_SALE, request, SaleResponseImpl);
+  }
+
+  /**
+   * Authorization (pre-auth)
+   *
+   * @param request auth request
+   * @return auth response
+   */
+  public async auth(request: AuthRequest): Promise<AuthResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'AuthRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_AUTH, request, AuthResponseImpl);
+  }
+
+  /**
+   * Forced authorization
+   *
+   * @param request forced auth request
+   * @return forced auth response
+   */
+  public async forcedAuth(request: ForcedAuthRequest): Promise<ForcedAuthResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'ForcedAuthRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_FORCED_AUTH, request, ForcedAuthResponseImpl);
+  }
+
+  /**
+   * Incremental authorization
+   *
+   * @param request incremental auth request
+   * @return incremental auth response
+   */
+  public async incrementalAuth(
+    request: IncrementalAuthRequest
+  ): Promise<IncrementalAuthResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'IncrementalAuthRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(
+      ApiConstants.PATH_INCREMENTAL_AUTH,
+      request,
+      IncrementalAuthResponseImpl
+    );
+  }
+
+  /**
+   * Post authorization (pre-auth completion)
+   *
+   * @param request post auth request
+   * @return post auth response
+   */
+  public async postAuth(request: PostAuthRequest): Promise<PostAuthResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'PostAuthRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_POST_AUTH, request, PostAuthResponseImpl);
+  }
+
+  /**
+   * Refund
+   *
+   * @param request refund request
+   * @return refund response
+   */
+  public async refund(request: RefundRequest): Promise<RefundResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'RefundRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_REFUND, request, RefundResponseImpl);
+  }
+
+  /**
+   * Void transaction
+   *
+   * @param request void request
+   * @return void response
+   */
+  public async voidTransaction(request: VoidRequest): Promise<VoidResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'VoidRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_VOID, request, VoidResponseImpl);
+  }
+
+  /**
+   * Abort transaction
+   *
+   * @param request abort request
+   * @return abort response
+   */
+  public async abort(request: AbortRequest): Promise<AbortResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'AbortRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_ABORT, request, AbortResponseImpl);
+  }
+
+  /**
+   * Tip adjust
+   *
+   * @param request tip adjust request
+   * @return tip adjust response
+   */
+  public async tipAdjust(request: TipAdjustRequest): Promise<TipAdjustResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'TipAdjustRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_TIP_ADJUST, request, TipAdjustResponseImpl);
+  }
+
+  /**
+   * Query transaction
+   *
+   * @param request query request
+   * @return query response
+   */
+  public async query(request: QueryRequest): Promise<QueryResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'QueryRequest cannot be null'
+      );
+    }
+    return this.httpClient.get(ApiConstants.PATH_QUERY, request, QueryResponseImpl);
+  }
+
+  /**
+   * Batch close
+   * <p>
+   * <b>Note: This API is currently under development.</b>
+   * </p>
+   *
+   * @param request batch close request
+   * @return batch close response
+   */
+  public async batchClose(request: BatchCloseRequest): Promise<BatchCloseResponse> {
+    if (!request) {
+      throw new SunbayBusinessException(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'BatchCloseRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_BATCH_CLOSE, request, BatchCloseResponseImpl);
+  }
+
+  /**
+   * Builder for NexusClient
+   */
+  public static Builder = class Builder implements BuilderType {
+    public _apiKey?: string;
+    public _baseUrl?: string;
+    public _connectTimeout?: number;
+    public _readTimeout?: number;
+    public _maxRetries?: number;
+    public _maxTotal?: number;
+    public _maxPerRoute?: number;
+    public _logger?: Logger;
+
+    public apiKey(apiKey: string): this {
+      this._apiKey = apiKey;
+      return this;
+    }
+
+    public baseUrl(baseUrl: string): this {
+      this._baseUrl = baseUrl;
+      return this;
+    }
+
+    public connectTimeout(connectTimeout: number): this {
+      this._connectTimeout = connectTimeout;
+      return this;
+    }
+
+    public readTimeout(readTimeout: number): this {
+      this._readTimeout = readTimeout;
+      return this;
+    }
+
+    public maxRetries(maxRetries: number): this {
+      this._maxRetries = maxRetries;
+      return this;
+    }
+
+    /**
+     * Set maximum total connections in the connection pool
+     *
+     * @param maxTotal maximum total connections (default: 200)
+     * @return builder
+     */
+    public maxTotal(maxTotal: number): this {
+      this._maxTotal = maxTotal;
+      return this;
+    }
+
+    /**
+     * Set maximum connections per route in the connection pool
+     *
+     * @param maxPerRoute maximum connections per route (default: 20)
+     * @return builder
+     */
+    public maxPerRoute(maxPerRoute: number): this {
+      this._maxPerRoute = maxPerRoute;
+      return this;
+    }
+
+    /**
+     * Set logger instance
+     * <p>
+     * Users can optionally provide a logger object with debug/info/warn/error methods.
+     * If not provided, DefaultLogger using console will be used.
+     * </p>
+     *
+     * @param logger logger instance
+     * @return builder
+     */
+    public logger(logger: Logger): this {
+      this._logger = logger;
+      return this;
+    }
+
+    public build(): NexusClient {
+      if (!this._apiKey || this._apiKey.length === 0) {
+        throw new SunbayBusinessException(
+          ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+          'API key cannot be null or empty'
+        );
+      }
+      return new NexusClient(this);
+    }
+  };
+
+  /**
+   * Create client from config object
+   *
+   * @param config client configuration
+   * @return NexusClient instance
+   */
+  public static fromConfig(config: ClientConfig): NexusClient {
+    const builder = new NexusClient.Builder();
+    builder.apiKey(config.apiKey);
+    if (config.baseUrl) {
+      builder.baseUrl(config.baseUrl);
+    }
+    if (config.connectTimeout) {
+      builder.connectTimeout(config.connectTimeout);
+    }
+    if (config.readTimeout) {
+      builder.readTimeout(config.readTimeout);
+    }
+    if (config.maxRetries) {
+      builder.maxRetries(config.maxRetries);
+    }
+    if (config.maxTotal) {
+      builder.maxTotal(config.maxTotal);
+    }
+    if (config.maxPerRoute) {
+      builder.maxPerRoute(config.maxPerRoute);
+    }
+    if (config.logger) {
+      builder.logger(config.logger);
+    }
+    return builder.build();
+  }
+}
+

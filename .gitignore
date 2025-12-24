@@ -1,0 +1,15 @@
+node_modules/
+lib/
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+coverage/
+.nyc_output/
+tests/
+*.test.ts
+*.spec.ts
+

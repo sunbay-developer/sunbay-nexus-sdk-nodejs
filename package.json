@@ -1,0 +1,50 @@
+{
+  "name": "@sunmi/sunbay-nexus-sdk",
+  "version": "1.0.0",
+  "description": "Official Node.js SDK for Sunbay Nexus Payment Platform",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "sunbay",
+    "nexus",
+    "payment",
+    "sdk",
+    "nodejs"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "debug": "^4.3.4"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.10.0",
+    "axios-mock-adapter": "^1.22.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0"
+  },
+  "license": "MIT",
+  "author": "Sunbay SDK Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs/issues"
+  },
+  "homepage": "https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs#readme"
+}
