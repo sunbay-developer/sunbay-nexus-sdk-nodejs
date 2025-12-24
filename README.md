@@ -17,13 +17,13 @@ Official Node.js SDK for Sunbay Nexus Payment Platform
 ## Installation
 
 ```bash
-npm install @sunmi/sunbay-nexus-sdk
+npm install @sunbay/sunbay-nexus-sdk
 ```
 
 or
 
 ```bash
-yarn add @sunmi/sunbay-nexus-sdk
+yarn add @sunbay/sunbay-nexus-sdk
 ```
 
 ## Quick Start
@@ -35,7 +35,7 @@ The `NexusClient` is thread-safe and can be reused across multiple requests. Cre
 **Option 1: Builder Pattern (Recommended)**
 
 ```typescript
-import { NexusClient } from '@sunmi/sunbay-nexus-sdk';
+import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
 
 // Create once and reuse
 const client = new NexusClient.Builder()
@@ -49,7 +49,7 @@ const client = new NexusClient.Builder()
 **Option 2: Config Object**
 
 ```typescript
-import { NexusClient } from '@sunmi/sunbay-nexus-sdk';
+import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
 
 const client = NexusClient.fromConfig({
   apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
@@ -69,7 +69,7 @@ import {
   SaleAmount,
   SunbayBusinessException,
   SunbayNetworkException,
-} from '@sunmi/sunbay-nexus-sdk';
+} from '@sunbay/sunbay-nexus-sdk';
 
 // Assume client is already initialized
 // const client = ... (from step 1)
@@ -127,7 +127,7 @@ try {
 ### 3. Query Transaction
 
 ```typescript
-import { NexusClient, QueryRequest } from '@sunmi/sunbay-nexus-sdk';
+import { NexusClient, QueryRequest } from '@sunbay/sunbay-nexus-sdk';
 
 // Query by transactionId
 const request: QueryRequest = {
@@ -237,7 +237,7 @@ These settings help optimize performance for high-concurrency scenarios.
 **Example: use default console logger (no extra config)**
 
 ```typescript
-import { NexusClient } from '@sunmi/sunbay-nexus-sdk';
+import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
 
 const client = new NexusClient.Builder()
   .apiKey(process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}')
@@ -247,7 +247,7 @@ const client = new NexusClient.Builder()
 **Example: use winston logger**
 
 ```typescript
-import { NexusClient } from '@sunmi/sunbay-nexus-sdk';
+import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
 import winston from 'winston';
 
 const logger = winston.createLogger({

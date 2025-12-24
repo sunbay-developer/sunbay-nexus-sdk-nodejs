@@ -1,5 +1,5 @@
 {
-  "name": "@sunmi/sunbay-nexus-sdk",
+  "name": "@sunbay/sunbay-nexus-sdk",
   "version": "1.0.0",
   "description": "Official Node.js SDK for Sunbay Nexus Payment Platform",
   "main": "lib/index.js",
@@ -41,7 +41,7 @@
   "author": "Sunbay SDK Team",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs.git"
+    "url": "git+https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs.git"
   },
   "bugs": {
     "url": "https://github.com/sunbay-developer/sunbay-nexus-sdk-nodejs/issues"
