@@ -12,4 +12,5 @@ coverage/
 tests/
 *.test.ts
 *.spec.ts
+DESIGN.md
 
