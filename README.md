@@ -104,15 +104,9 @@ const request = {
 // Execute transaction
 try {
   const response = await client.sale(request);
-  if (response.isSuccess && response.isSuccess()) {
-    console.log('Transaction ID:', response.transactionId);
-    console.log('Reference Order ID:', response.referenceOrderId);
-  } else {
-    console.log('Error:', response.msg);
-    if (response.traceId) {
-      console.log('Trace ID:', response.traceId);
-    }
-  }
+  // If code reaches here, the transaction is successful (code = '0')
+  console.log('Transaction ID:', response.transactionId);
+  console.log('Reference Order ID:', response.referenceOrderId);
 } catch (error) {
   if (error.name === 'SunbayNetworkException') {
     console.error('Network Error:', error.message);
@@ -167,15 +161,9 @@ const request: SaleRequest = {
 // Execute transaction
 try {
   const response = await client.sale(request);
-  if (response.isSuccess && response.isSuccess()) {
-    console.log('Transaction ID:', response.transactionId);
-    console.log('Reference Order ID:', response.referenceOrderId);
-  } else {
-    console.log('Error:', response.msg);
-    if (response.traceId) {
-      console.log('Trace ID:', response.traceId);
-    }
-  }
+  // If code reaches here, the transaction is successful (code = '0')
+  console.log('Transaction ID:', response.transactionId);
+  console.log('Reference Order ID:', response.referenceOrderId);
 } catch (error) {
   if (error.name === 'SunbayNetworkException') {
     console.error('Network Error:', error.message);
