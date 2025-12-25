@@ -8,6 +8,11 @@ import { IdGenerator } from '../utils/IdGenerator';
 import { UserAgentUtil } from '../utils/UserAgentUtil';
 import { JsonUtil } from '../utils/JsonUtil';
 import { Logger, DefaultLogger } from '../logger/Logger';
+import { TransactionStatus, TransactionStatusUtil } from '../enums/TransactionStatus';
+import { TransactionType } from '../enums/TransactionType';
+import { EntryMode } from '../enums/EntryMode';
+import { CardNetworkType } from '../enums/CardNetworkType';
+import { AuthenticationMethod } from '../enums/AuthenticationMethod';
 
 /**
  * HTTP client for Sunbay API
@@ -472,6 +477,9 @@ export class HttpClient {
       result.msg = msg;
       result.traceId = traceId;
 
+      // Convert enum fields from code/string to enum
+      this.convertEnumFields(result);
+
       // Add isSuccess method if not present
       if (!result.isSuccess) {
         (result as any).isSuccess = function (): boolean {
@@ -485,6 +493,10 @@ export class HttpClient {
       try {
         const parsed = typeof responseBody === 'string' ? JSON.parse(responseBody) : responseBody;
         const result = Object.assign(new responseType(), parsed);
+        
+        // Convert enum fields from code/string to enum
+        this.convertEnumFields(result);
+        
         if (!result.isSuccess) {
           (result as any).isSuccess = function (): boolean {
             return ApiConstants.RESPONSE_SUCCESS_CODE === this.code;
@@ -496,6 +508,53 @@ export class HttpClient {
           this.logger.debug(`Failed to parse response with data field, fallback to direct parsing: ${e2.message || 'Unknown error'}`);
         }
         return null;
+      }
+    }
+  }
+
+  /**
+   * Convert enum fields from code/string to enum type
+   * 
+   * @param result response object
+   */
+  private convertEnumFields(result: any): void {
+    // Convert transactionStatus: API returns code (I, P, S, F, C)
+    if (result.transactionStatus && typeof result.transactionStatus === 'string') {
+      const status = TransactionStatusUtil.fromValue(result.transactionStatus);
+      if (status !== undefined) {
+        result.transactionStatus = status;
+      }
+    }
+
+    // Convert transactionType: API returns enum name (SALE, AUTH, etc.)
+    if (result.transactionType && typeof result.transactionType === 'string') {
+      const upperValue = result.transactionType.toUpperCase();
+      if (upperValue in TransactionType) {
+        result.transactionType = TransactionType[upperValue as keyof typeof TransactionType] as TransactionType;
+      }
+    }
+
+    // Convert entryMode: API returns enum name (MANUAL, SWIPE, etc.)
+    if (result.entryMode && typeof result.entryMode === 'string') {
+      const upperValue = result.entryMode.toUpperCase();
+      if (upperValue in EntryMode) {
+        result.entryMode = EntryMode[upperValue as keyof typeof EntryMode] as EntryMode;
+      }
+    }
+
+    // Convert cardNetworkType: API returns enum name (CREDIT, DEBIT, etc.)
+    if (result.cardNetworkType && typeof result.cardNetworkType === 'string') {
+      const upperValue = result.cardNetworkType.toUpperCase();
+      if (upperValue in CardNetworkType) {
+        result.cardNetworkType = CardNetworkType[upperValue as keyof typeof CardNetworkType] as CardNetworkType;
+      }
+    }
+
+    // Convert authenticationMethod: API returns enum name (NOT_AUTHENTICATED, PIN, etc.)
+    if (result.authenticationMethod && typeof result.authenticationMethod === 'string') {
+      const upperValue = result.authenticationMethod.toUpperCase();
+      if (upperValue in AuthenticationMethod) {
+        result.authenticationMethod = AuthenticationMethod[upperValue as keyof typeof AuthenticationMethod] as AuthenticationMethod;
       }
     }
   }

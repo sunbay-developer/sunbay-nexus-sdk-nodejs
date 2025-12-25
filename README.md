@@ -195,7 +195,7 @@ try {
 
 **JavaScript (CommonJS)**
 ```javascript
-const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
+const { NexusClient, TransactionStatus, TransactionType } = require('@sunbay/sunbay-nexus-sdk');
 
 // Query by transactionId
 const request = {
@@ -205,13 +205,19 @@ const request = {
 };
 
 const response = await client.query(request);
-console.log('Transaction Status:', response.transactionStatus);
-console.log('Transaction Type:', response.transactionType);
+// Response fields are automatically converted to enum types
+console.log('Transaction Status:', response.transactionStatus); // TransactionStatus enum (e.g., TransactionStatus.INITIAL)
+console.log('Transaction Type:', response.transactionType);     // TransactionType enum (e.g., TransactionType.SALE)
+
+// Use enum for comparison
+if (response.transactionStatus === TransactionStatus.SUCCESS) {
+  console.log('Transaction completed successfully');
+}
 ```
 
 **TypeScript / ES Modules**
 ```typescript
-import { NexusClient, QueryRequest } from '@sunbay/sunbay-nexus-sdk';
+import { NexusClient, QueryRequest, TransactionStatus, TransactionType } from '@sunbay/sunbay-nexus-sdk';
 
 // Query by transactionId
 const request: QueryRequest = {
@@ -221,8 +227,14 @@ const request: QueryRequest = {
 };
 
 const response = await client.query(request);
-console.log('Transaction Status:', response.transactionStatus);
-console.log('Transaction Type:', response.transactionType);
+// Response fields are automatically converted to enum types
+console.log('Transaction Status:', response.transactionStatus); // TransactionStatus enum
+console.log('Transaction Type:', response.transactionType);     // TransactionType enum
+
+// Use enum for type-safe comparison
+if (response.transactionStatus === TransactionStatus.SUCCESS) {
+  console.log('Transaction completed successfully');
+}
 ```
 
 ## API Methods
@@ -299,6 +311,65 @@ try {
       console.error('Trace ID:', error.traceId);
     }
   }
+}
+```
+
+## Enums
+
+The SDK provides enum types for better type safety. Response fields are automatically converted from API codes/strings to enum types.
+
+### TransactionStatus
+
+The `transactionStatus` field in query responses is automatically converted from API code (I, P, S, F, C) to `TransactionStatus` enum:
+
+```typescript
+import { TransactionStatus, TransactionStatusUtil } from '@sunbay/sunbay-nexus-sdk';
+
+// API returns code "I", SDK converts to TransactionStatus.INITIAL
+const response = await client.query(request);
+console.log(response.transactionStatus); // TransactionStatus.INITIAL
+
+// Use enum for comparison
+if (response.transactionStatus === TransactionStatus.SUCCESS) {
+  // Transaction successful
+}
+
+// Get code from enum (if needed)
+const code = TransactionStatusUtil.getCode(response.transactionStatus); // "S"
+const desc = TransactionStatusUtil.getDesc(response.transactionStatus); // "SUCCESS"
+
+// Convert code to enum
+const status = TransactionStatusUtil.fromCode('I'); // TransactionStatus.INITIAL
+```
+
+**Available TransactionStatus values:**
+- `TransactionStatus.INITIAL` - Initial state (code: "I")
+- `TransactionStatus.PROCESSING` - Transaction processing (code: "P")
+- `TransactionStatus.SUCCESS` - Transaction successful (code: "S")
+- `TransactionStatus.FAIL` - Transaction failed (code: "F")
+- `TransactionStatus.CLOSED` - Transaction closed (code: "C")
+
+### Other Enums
+
+Other enum fields in responses are also automatically converted:
+- `transactionType`: `TransactionType` enum (SALE, AUTH, FORCED_AUTH, etc.)
+- `entryMode`: `EntryMode` enum (MANUAL, SWIPE, CONTACT, etc.)
+- `cardNetworkType`: `CardNetworkType` enum (CREDIT, DEBIT, EBT, etc.)
+- `authenticationMethod`: `AuthenticationMethod` enum (NOT_AUTHENTICATED, PIN, etc.)
+
+**Example:**
+```typescript
+import { TransactionType, EntryMode } from '@sunbay/sunbay-nexus-sdk';
+
+const response = await client.query(request);
+
+// Type-safe enum comparison
+if (response.transactionType === TransactionType.SALE) {
+  console.log('This is a sale transaction');
+}
+
+if (response.entryMode === EntryMode.CONTACTLESS) {
+  console.log('Contactless payment');
 }
 ```
 

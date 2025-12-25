@@ -1,5 +1,10 @@
 import { BaseResponse, BaseResponseImpl } from '../common/BaseResponse';
 import { Amount } from '../common/Amount';
+import { TransactionStatus } from '../../enums/TransactionStatus';
+import { TransactionType } from '../../enums/TransactionType';
+import { EntryMode } from '../../enums/EntryMode';
+import { CardNetworkType } from '../../enums/CardNetworkType';
+import { AuthenticationMethod } from '../../enums/AuthenticationMethod';
 
 /**
  * Query response
@@ -24,13 +29,14 @@ export interface QueryResponse extends BaseResponse {
 
   /**
    * Transaction status: INITIAL(initial)/PROCESSING(processing)/SUCCESS(success)/FAIL(failed)/CLOSED(closed)
+   * API returns code (I, P, S, F, C), will be converted to enum
    */
-  transactionStatus?: string;
+  transactionStatus?: TransactionStatus;
 
   /**
    * Transaction type: AUTH(authorization)/SALE(sale)/FORCED_AUTH(forced authorization)/INCREMENTAL(incremental authorization)/POST_AUTH(post authorization)/VOID(void)/REFUND(refund)
    */
-  transactionType?: string;
+  transactionType?: TransactionType;
 
   /**
    * Transaction amount details
@@ -55,7 +61,7 @@ export interface QueryResponse extends BaseResponse {
   /**
    * Card network type: CREDIT(credit card)/DEBIT(debit card)/EBT/EGC/UNKNOWN
    */
-  cardNetworkType?: string;
+  cardNetworkType?: CardNetworkType;
 
   /**
    * Payment method ID
@@ -95,12 +101,12 @@ export interface QueryResponse extends BaseResponse {
   /**
    * Entry mode: MANUAL(manual input)/SWIPE(swipe)/FALLBACK_SWIPE(swipe fallback)/CONTACT(contact)/CONTACTLESS(contactless)
    */
-  entryMode?: string;
+  entryMode?: EntryMode;
 
   /**
    * Authentication method: NOT_AUTHENTICATED(not authenticated)/PIN/OFFLINE_PIN/BY_PASS/SIGNATURE
    */
-  authenticationMethod?: string;
+  authenticationMethod?: AuthenticationMethod;
 
   /**
    * Transaction result code
@@ -135,13 +141,13 @@ export class QueryResponseImpl extends BaseResponseImpl implements QueryResponse
   public transactionId?: string;
   public transactionRequestId?: string;
   public referenceOrderId?: string;
-  public transactionStatus?: string;
-  public transactionType?: string;
+  public transactionStatus?: TransactionStatus;
+  public transactionType?: TransactionType;
   public amount?: Amount;
   public createTime?: string;
   public completeTime?: string;
   public maskedPan?: string;
-  public cardNetworkType?: string;
+  public cardNetworkType?: CardNetworkType;
   public paymentMethodId?: string;
   public subPaymentMethodId?: string;
   public batchNo?: string;
@@ -149,8 +155,8 @@ export class QueryResponseImpl extends BaseResponseImpl implements QueryResponse
   public stan?: string;
   public rrn?: string;
   public authCode?: string;
-  public entryMode?: string;
-  public authenticationMethod?: string;
+  public entryMode?: EntryMode;
+  public authenticationMethod?: AuthenticationMethod;
   public transactionResultCode?: string;
   public transactionResultMsg?: string;
   public terminalSn?: string;
