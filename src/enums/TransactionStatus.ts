@@ -1,125 +1,66 @@
 /**
- * Transaction status enum
+ * Transaction status class
+ * API returns code (I, P, S, F, C), SDK converts to TransactionStatus instance
  *
  * @since 2025-12-24
  */
-export enum TransactionStatus {
+export class TransactionStatus {
   /**
-   * Initial state
+   * Initial state (code: "I")
    */
-  INITIAL = 'INITIAL',
+  public static readonly INITIAL = new TransactionStatus('I');
 
   /**
    * Transaction processing. Channel called but no result obtained, or unexpected
-   * exception returned.
+   * exception returned. (code: "P")
    */
-  PROCESSING = 'PROCESSING',
+  public static readonly PROCESSING = new TransactionStatus('P');
 
   /**
-   * Transaction successful
+   * Transaction successful (code: "S")
    */
-  SUCCESS = 'SUCCESS',
+  public static readonly SUCCESS = new TransactionStatus('S');
 
   /**
-   * Transaction failed
+   * Transaction failed (code: "F")
    */
-  FAIL = 'FAIL',
+  public static readonly FAIL = new TransactionStatus('F');
 
   /**
-   * Transaction closed
+   * Transaction closed (code: "C")
    */
-  CLOSED = 'CLOSED',
-}
+  public static readonly CLOSED = new TransactionStatus('C');
 
-/**
- * Transaction status code mapping
- * API returns code (I, P, S, F, C), not enum name
- */
-const TRANSACTION_STATUS_CODE_MAP: Record<string, TransactionStatus> = {
-  'I': TransactionStatus.INITIAL,
-  'P': TransactionStatus.PROCESSING,
-  'S': TransactionStatus.SUCCESS,
-  'F': TransactionStatus.FAIL,
-  'C': TransactionStatus.CLOSED,
-};
+  private readonly code: string;
 
-/**
- * Transaction status code to enum name mapping
- */
-const TRANSACTION_STATUS_CODE_TO_NAME: Record<string, string> = {
-  'I': 'INITIAL',
-  'P': 'PROCESSING',
-  'S': 'SUCCESS',
-  'F': 'FAIL',
-  'C': 'CLOSED',
-};
+  private constructor(code: string) {
+    this.code = code;
+  }
 
-/**
- * Transaction status utilities
- */
-export class TransactionStatusUtil {
   /**
    * Get transaction status code
    *
-   * @param status transaction status enum
    * @return status code (I, P, S, F, C)
    */
-  public static getCode(status: TransactionStatus): string {
-    const codeMap: Record<TransactionStatus, string> = {
-      [TransactionStatus.INITIAL]: 'I',
-      [TransactionStatus.PROCESSING]: 'P',
-      [TransactionStatus.SUCCESS]: 'S',
-      [TransactionStatus.FAIL]: 'F',
-      [TransactionStatus.CLOSED]: 'C',
-    };
-    return codeMap[status] || '';
+  public getCode(): string {
+    return this.code;
   }
 
   /**
-   * Get transaction status description
-   *
-   * @param status transaction status enum
-   * @return status description
-   */
-  public static getDesc(status: TransactionStatus): string {
-    return status.toString();
-  }
-
-  /**
-   * Convert code to transaction status enum
+   * Convert code to transaction status
    *
    * @param code status code (I, P, S, F, C)
-   * @return transaction status enum, or undefined if code is invalid
+   * @return transaction status, or undefined if code is invalid
    */
   public static fromCode(code: string): TransactionStatus | undefined {
-    return TRANSACTION_STATUS_CODE_MAP[code];
-  }
-
-  /**
-   * Convert code or enum name to transaction status enum
-   * Supports both code (I, P, S, F, C) and enum name (INITIAL, PROCESSING, etc.)
-   *
-   * @param value code or enum name
-   * @return transaction status enum, or undefined if value is invalid
-   */
-  public static fromValue(value: string): TransactionStatus | undefined {
-    if (!value) {
-      return undefined;
-    }
-    
-    // Try code first (I, P, S, F, C)
-    const fromCode = TRANSACTION_STATUS_CODE_MAP[value];
-    if (fromCode !== undefined) {
-      return fromCode;
-    }
-    
-    // Try enum name (INITIAL, PROCESSING, etc.)
-    const upperValue = value.toUpperCase();
-    if (upperValue in TransactionStatus) {
-      return TransactionStatus[upperValue as keyof typeof TransactionStatus] as TransactionStatus;
-    }
-    
-    return undefined;
+    const codeMap: Record<string, TransactionStatus> = {
+      'I': TransactionStatus.INITIAL,
+      'P': TransactionStatus.PROCESSING,
+      'S': TransactionStatus.SUCCESS,
+      'F': TransactionStatus.FAIL,
+      'C': TransactionStatus.CLOSED,
+    };
+    return codeMap[code];
   }
 }
 

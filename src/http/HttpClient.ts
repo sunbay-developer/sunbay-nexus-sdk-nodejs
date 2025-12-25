@@ -8,7 +8,7 @@ import { IdGenerator } from '../utils/IdGenerator';
 import { UserAgentUtil } from '../utils/UserAgentUtil';
 import { JsonUtil } from '../utils/JsonUtil';
 import { Logger, DefaultLogger } from '../logger/Logger';
-import { TransactionStatus, TransactionStatusUtil } from '../enums/TransactionStatus';
+import { TransactionStatus } from '../enums/TransactionStatus';
 import { TransactionType } from '../enums/TransactionType';
 import { EntryMode } from '../enums/EntryMode';
 import { CardNetworkType } from '../enums/CardNetworkType';
@@ -520,41 +520,41 @@ export class HttpClient {
   private convertEnumFields(result: any): void {
     // Convert transactionStatus: API returns code (I, P, S, F, C)
     if (result.transactionStatus && typeof result.transactionStatus === 'string') {
-      const status = TransactionStatusUtil.fromValue(result.transactionStatus);
+      const status = TransactionStatus.fromCode(result.transactionStatus);
       if (status !== undefined) {
         result.transactionStatus = status;
       }
     }
 
-    // Convert transactionType: API returns enum name (SALE, AUTH, etc.)
+    // Convert transactionType: API returns transaction type name (SALE, AUTH, etc.)
     if (result.transactionType && typeof result.transactionType === 'string') {
-      const upperValue = result.transactionType.toUpperCase();
-      if (upperValue in TransactionType) {
-        result.transactionType = TransactionType[upperValue as keyof typeof TransactionType] as TransactionType;
+      const type = TransactionType.fromCode(result.transactionType);
+      if (type !== undefined) {
+        result.transactionType = type;
       }
     }
 
-    // Convert entryMode: API returns enum name (MANUAL, SWIPE, etc.)
+    // Convert entryMode: API returns entry mode name (MANUAL, SWIPE, etc.)
     if (result.entryMode && typeof result.entryMode === 'string') {
-      const upperValue = result.entryMode.toUpperCase();
-      if (upperValue in EntryMode) {
-        result.entryMode = EntryMode[upperValue as keyof typeof EntryMode] as EntryMode;
+      const mode = EntryMode.fromCode(result.entryMode);
+      if (mode !== undefined) {
+        result.entryMode = mode;
       }
     }
 
-    // Convert cardNetworkType: API returns enum name (CREDIT, DEBIT, etc.)
+    // Convert cardNetworkType: API returns card network type name (CREDIT, DEBIT, etc.)
     if (result.cardNetworkType && typeof result.cardNetworkType === 'string') {
-      const upperValue = result.cardNetworkType.toUpperCase();
-      if (upperValue in CardNetworkType) {
-        result.cardNetworkType = CardNetworkType[upperValue as keyof typeof CardNetworkType] as CardNetworkType;
+      const networkType = CardNetworkType.fromCode(result.cardNetworkType);
+      if (networkType !== undefined) {
+        result.cardNetworkType = networkType;
       }
     }
 
-    // Convert authenticationMethod: API returns enum name (NOT_AUTHENTICATED, PIN, etc.)
+    // Convert authenticationMethod: API returns authentication method name (NOT_AUTHENTICATED, PIN, etc.)
     if (result.authenticationMethod && typeof result.authenticationMethod === 'string') {
-      const upperValue = result.authenticationMethod.toUpperCase();
-      if (upperValue in AuthenticationMethod) {
-        result.authenticationMethod = AuthenticationMethod[upperValue as keyof typeof AuthenticationMethod] as AuthenticationMethod;
+      const authMethod = AuthenticationMethod.fromCode(result.authenticationMethod);
+      if (authMethod !== undefined) {
+        result.authenticationMethod = authMethod;
       }
     }
   }

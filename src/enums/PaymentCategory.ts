@@ -1,32 +1,65 @@
 /**
- * Payment category enum
+ * Payment category class
+ * API returns payment category value (CARD, CARD-CREDIT, etc.), SDK converts to PaymentCategory instance
  *
  * @since 2025-12-24
  */
-export enum PaymentCategory {
+export class PaymentCategory {
   /**
-   * Card payment
+   * Card payment (code: "CARD")
    */
-  CARD = 'CARD',
+  public static readonly CARD = new PaymentCategory('CARD');
 
   /**
-   * Credit card network
+   * Credit card network (code: "CARD-CREDIT")
    */
-  CARD_CREDIT = 'CARD-CREDIT',
+  public static readonly CARD_CREDIT = new PaymentCategory('CARD-CREDIT');
 
   /**
-   * Debit card network
+   * Debit card network (code: "CARD-DEBIT")
    */
-  CARD_DEBIT = 'CARD-DEBIT',
+  public static readonly CARD_DEBIT = new PaymentCategory('CARD-DEBIT');
 
   /**
-   * QR code merchant presented mode
+   * QR code merchant presented mode (code: "QR-MPM")
    */
-  QR_MPM = 'QR-MPM',
+  public static readonly QR_MPM = new PaymentCategory('QR-MPM');
 
   /**
-   * QR code customer presented mode
+   * QR code customer presented mode (code: "QR-CPM")
    */
-  QR_CPM = 'QR-CPM',
+  public static readonly QR_CPM = new PaymentCategory('QR-CPM');
+
+  private readonly code: string;
+
+  private constructor(code: string) {
+    this.code = code;
+  }
+
+  /**
+   * Get payment category code
+   *
+   * @return payment category code
+   */
+  public getCode(): string {
+    return this.code;
+  }
+
+  /**
+   * Convert code to payment category
+   *
+   * @param code payment category code
+   * @return payment category, or undefined if code is invalid
+   */
+  public static fromCode(code: string): PaymentCategory | undefined {
+    const codeMap: Record<string, PaymentCategory> = {
+      'CARD': PaymentCategory.CARD,
+      'CARD-CREDIT': PaymentCategory.CARD_CREDIT,
+      'CARD-DEBIT': PaymentCategory.CARD_DEBIT,
+      'QR-MPM': PaymentCategory.QR_MPM,
+      'QR-CPM': PaymentCategory.QR_CPM,
+    };
+    return codeMap[code];
+  }
 }
 

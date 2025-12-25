@@ -11,7 +11,7 @@ export { SunbayBusinessException } from './exceptions/SunbayBusinessException';
 export { SunbayNetworkException } from './exceptions/SunbayNetworkException';
 
 // Enums
-export { TransactionStatus, TransactionStatusUtil } from './enums/TransactionStatus';
+export { TransactionStatus } from './enums/TransactionStatus';
 export { TransactionType } from './enums/TransactionType';
 export { EntryMode } from './enums/EntryMode';
 export { CardNetworkType } from './enums/CardNetworkType';

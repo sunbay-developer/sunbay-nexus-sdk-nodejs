@@ -323,23 +323,22 @@ The SDK provides enum types for better type safety. Response fields are automati
 The `transactionStatus` field in query responses is automatically converted from API code (I, P, S, F, C) to `TransactionStatus` enum:
 
 ```typescript
-import { TransactionStatus, TransactionStatusUtil } from '@sunbay/sunbay-nexus-sdk';
+import { TransactionStatus } from '@sunbay/sunbay-nexus-sdk';
 
-// API returns code "I", SDK converts to TransactionStatus.INITIAL
+// API returns code "I", SDK converts to TransactionStatus instance
 const response = await client.query(request);
-console.log(response.transactionStatus); // TransactionStatus.INITIAL
+console.log(response.transactionStatus); // TransactionStatus.INITIAL instance
 
-// Use enum for comparison
+// Use for comparison
 if (response.transactionStatus === TransactionStatus.SUCCESS) {
   // Transaction successful
 }
 
-// Get code from enum (if needed)
-const code = TransactionStatusUtil.getCode(response.transactionStatus); // "S"
-const desc = TransactionStatusUtil.getDesc(response.transactionStatus); // "SUCCESS"
+// Get code directly from the instance
+const code = response.transactionStatus.getCode(); // "S"
 
-// Convert code to enum
-const status = TransactionStatusUtil.fromCode('I'); // TransactionStatus.INITIAL
+// Convert code to TransactionStatus
+const status = TransactionStatus.fromCode('I'); // TransactionStatus.INITIAL
 ```
 
 **Available TransactionStatus values:**
@@ -348,6 +347,8 @@ const status = TransactionStatusUtil.fromCode('I'); // TransactionStatus.INITIAL
 - `TransactionStatus.SUCCESS` - Transaction successful (code: "S")
 - `TransactionStatus.FAIL` - Transaction failed (code: "F")
 - `TransactionStatus.CLOSED` - Transaction closed (code: "C")
+
+> **Note**: API returns code (I, P, S, F, C), SDK automatically converts to TransactionStatus instance. Use `getCode()` to get the original code.
 
 ### Other Enums
 
