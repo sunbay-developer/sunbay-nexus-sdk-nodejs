@@ -1,4 +1,4 @@
-import { SunbayBusinessException } from '../exceptions/SunbayBusinessException';
+import { SunbayBusinessError } from '../errors/SunbayBusinessError';
 
 /**
  * JSON utility class
@@ -36,7 +36,7 @@ export class JsonUtil {
         return value;
       });
     } catch (e: any) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         'Failed to serialize object to JSON',
         e?.message || String(e)
       );
@@ -57,7 +57,7 @@ export class JsonUtil {
     try {
       return JSON.parse(json) as T;
     } catch (e: any) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         'Failed to parse JSON to object',
         e?.message || String(e)
       );

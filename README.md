@@ -71,8 +71,8 @@ const client = new NexusClient({
 ```javascript
 const {
   NexusClient,
-  SunbayBusinessException,
-  SunbayNetworkException,
+  SunbayBusinessError,
+  SunbayNetworkError,
 } = require('@sunbay/sunbay-nexus-sdk');
 
 // Assume client is already initialized
@@ -108,12 +108,12 @@ try {
   console.log('Transaction ID:', response.transactionId);
   console.log('Reference Order ID:', response.referenceOrderId);
 } catch (error) {
-  if (error.name === 'SunbayNetworkException') {
+  if (error.name === 'SunbayNetworkError') {
     console.error('Network Error:', error.message);
     if (error.retryable) {
       console.log('This error is retryable');
     }
-  } else if (error.name === 'SunbayBusinessException') {
+  } else if (error.name === 'SunbayBusinessError') {
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
       console.error('Trace ID:', error.traceId);
@@ -128,8 +128,8 @@ import {
   NexusClient,
   SaleRequest,
   SaleAmount,
-  SunbayBusinessException,
-  SunbayNetworkException,
+  SunbayBusinessError,
+  SunbayNetworkError,
 } from '@sunbay/sunbay-nexus-sdk';
 
 // Assume client is already initialized
@@ -165,12 +165,12 @@ try {
   console.log('Transaction ID:', response.transactionId);
   console.log('Reference Order ID:', response.referenceOrderId);
 } catch (error) {
-  if (error.name === 'SunbayNetworkException') {
+  if (error.name === 'SunbayNetworkError') {
     console.error('Network Error:', error.message);
     if (error.retryable) {
       console.log('This error is retryable');
     }
-  } else if (error.name === 'SunbayBusinessException') {
+  } else if (error.name === 'SunbayBusinessError') {
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
       console.error('Trace ID:', error.traceId);
@@ -249,12 +249,12 @@ All request classes support object literal syntax. The SDK provides the followin
 
 - `batchClose(request: BatchCloseRequest): Promise<BatchCloseResponse>` - Batch close
 
-## Exception Handling
+## Error Handling
 
-The SDK throws two types of exceptions:
+The SDK throws two types of errors:
 
-- **SunbayNetworkException**: Network-related errors (connection timeout, network error, etc.)
-- **SunbayBusinessException**: Business logic errors (parameter validation, API business errors, etc.)
+- **SunbayNetworkError**: Network-related errors (connection timeout, network error, etc.)
+- **SunbayBusinessError**: Business logic errors (parameter validation, API business errors, etc.)
 
 Check error type by `error.name` property:
 
@@ -264,13 +264,13 @@ try {
   const response = await client.sale(request);
   // Handle success
 } catch (error) {
-  if (error.name === 'SunbayNetworkException') {
+  if (error.name === 'SunbayNetworkError') {
     // Network exception (e.g., connection timeout, network error)
     console.error('Network Error:', error.message);
     if (error.retryable) {
       // Can retry
     }
-  } else if (error.name === 'SunbayBusinessException') {
+  } else if (error.name === 'SunbayBusinessError') {
     // Business exception (e.g., insufficient funds, parameter error)
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
@@ -286,13 +286,13 @@ try {
   const response = await client.sale(request);
   // Handle success
 } catch (error: any) {
-  if (error.name === 'SunbayNetworkException') {
+  if (error.name === 'SunbayNetworkError') {
     // Network exception (e.g., connection timeout, network error)
     console.error('Network Error:', error.message);
     if (error.retryable) {
       // Can retry
     }
-  } else if (error.name === 'SunbayBusinessException') {
+  } else if (error.name === 'SunbayBusinessError') {
     // Business exception (e.g., insufficient funds, parameter error)
     console.error('API Error:', error.code, error.message);
     if (error.traceId) {
@@ -447,7 +447,7 @@ src/
 ├── models/                 # Data models (request/response/common)
 ├── constants/              # API constants
 ├── enums/                  # Enum types
-├── exceptions/             # Exception classes
+├── errors/                 # Error classes
 ├── logger/                 # Logger interface and default implementation
 │   └── Logger.ts          # Logger interface and default implementation
 ├── utils/                  # Utility functions

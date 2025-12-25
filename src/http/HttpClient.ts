@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as https from 'https';
 import { ApiConstants } from '../constants/ApiConstants';
-import { SunbayBusinessException } from '../exceptions/SunbayBusinessException';
-import { SunbayNetworkException } from '../exceptions/SunbayNetworkException';
+import { SunbayBusinessError } from '../errors/SunbayBusinessError';
+import { SunbayNetworkError } from '../errors/SunbayNetworkError';
 import { BaseResponse } from '../models/common/BaseResponse';
 import { IdGenerator } from '../utils/IdGenerator';
 import { UserAgentUtil } from '../utils/UserAgentUtil';
@@ -197,7 +197,7 @@ export class HttpClient {
       }
     }
 
-    throw new SunbayNetworkException(
+    throw new SunbayNetworkError(
       `Request failed after ${maxAttempts} attempts`,
       true
     );
@@ -267,13 +267,13 @@ export class HttpClient {
         statusCode < ApiConstants.HTTP_STATUS_OK_END
       ) {
         if (!responseBody || (typeof responseBody === 'string' && responseBody.trim().length === 0)) {
-          throw new SunbayNetworkException('Empty response body', false);
+          throw new SunbayNetworkError('Empty response body', false);
         }
 
         // Parse response with data field support
         const result = this.parseResponse<T>(responseBody, responseType);
         if (!result) {
-          throw new SunbayNetworkException('Failed to parse response body', false);
+          throw new SunbayNetworkError('Failed to parse response body', false);
         }
 
         // Check if response is successful
@@ -283,7 +283,7 @@ export class HttpClient {
               `API error ${requestMethod} ${requestUrl} - code: ${result.code}, msg: ${result.msg}, traceId: ${result.traceId}`
             );
           }
-          throw new SunbayBusinessException(
+          throw new SunbayBusinessError(
             result.code || ApiConstants.ERROR_CODE_PARAMETER_ERROR,
             result.msg || 'Unknown error',
             result.traceId
@@ -296,10 +296,10 @@ export class HttpClient {
         if (this.logger.error) {
           this.logger.error(`HTTP error ${requestMethod} ${requestUrl} - Status: ${statusCode}, Message: ${errorMessage}`);
         }
-        throw new SunbayNetworkException(errorMessage, false);
+        throw new SunbayNetworkError(errorMessage, false);
       }
     } catch (error: any) {
-      if (error?.name === 'SunbayBusinessException' || error?.name === 'SunbayNetworkException') {
+      if (error?.name === 'SunbayBusinessError' || error?.name === 'SunbayNetworkError') {
         throw error;
       }
 
@@ -312,7 +312,7 @@ export class HttpClient {
         if (this.logger.error) {
           this.logger.error(`HTTP error ${requestMethod} ${requestUrl} - Status: ${statusCode}, Message: ${errorMessage}`);
         }
-        throw new SunbayNetworkException(errorMessage, false);
+        throw new SunbayNetworkError(errorMessage, false);
       } else if (error.request) {
         // Request made but no response received
         const isTimeout = error.code === 'ECONNABORTED' || error.message?.includes('timeout');
@@ -325,14 +325,14 @@ export class HttpClient {
             this.logger.warn(`Network error ${requestMethod} ${requestUrl}: ${error.message || 'No response received'}`);
           }
         }
-        throw new SunbayNetworkException(
+        throw new SunbayNetworkError(
           `Network error: ${error.message || 'No response received'}`,
           error,
           isTimeout
         );
       } else {
         // Error setting up request
-        throw new SunbayNetworkException(
+        throw new SunbayNetworkError(
           `Request error: ${error.message || 'Unknown error'}`,
           error,
           false

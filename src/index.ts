@@ -6,9 +6,9 @@ export type { ClientConfig } from './client/ClientConfig';
 export type { Logger } from './logger/Logger';
 export { DefaultLogger } from './logger/Logger';
 
-// Exceptions
-export { SunbayBusinessException } from './exceptions/SunbayBusinessException';
-export { SunbayNetworkException } from './exceptions/SunbayNetworkException';
+// Errors
+export { SunbayBusinessError } from './errors/SunbayBusinessError';
+export { SunbayNetworkError } from './errors/SunbayNetworkError';
 
 // Enums
 export { TransactionStatus } from './enums/TransactionStatus';

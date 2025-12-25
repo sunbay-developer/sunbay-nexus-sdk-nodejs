@@ -1,6 +1,6 @@
 import { HttpClient } from './http/HttpClient';
 import { ApiConstants } from './constants/ApiConstants';
-import { SunbayBusinessException } from './exceptions/SunbayBusinessException';
+import { SunbayBusinessError } from './errors/SunbayBusinessError';
 import { ClientConfig } from './client/ClientConfig';
 import { Logger } from './logger/Logger';
 
@@ -55,7 +55,7 @@ export class NexusClient {
    */
   constructor(config: ClientConfig) {
     if (!config || !config.apiKey || config.apiKey.length === 0) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'API key cannot be null or empty'
       );
@@ -81,7 +81,7 @@ export class NexusClient {
    */
   public async sale(request: SaleRequest): Promise<SaleResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'SaleRequest cannot be null'
       );
@@ -97,7 +97,7 @@ export class NexusClient {
    */
   public async auth(request: AuthRequest): Promise<AuthResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'AuthRequest cannot be null'
       );
@@ -113,7 +113,7 @@ export class NexusClient {
    */
   public async forcedAuth(request: ForcedAuthRequest): Promise<ForcedAuthResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'ForcedAuthRequest cannot be null'
       );
@@ -131,7 +131,7 @@ export class NexusClient {
     request: IncrementalAuthRequest
   ): Promise<IncrementalAuthResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'IncrementalAuthRequest cannot be null'
       );
@@ -151,7 +151,7 @@ export class NexusClient {
    */
   public async postAuth(request: PostAuthRequest): Promise<PostAuthResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'PostAuthRequest cannot be null'
       );
@@ -167,7 +167,7 @@ export class NexusClient {
    */
   public async refund(request: RefundRequest): Promise<RefundResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'RefundRequest cannot be null'
       );
@@ -183,7 +183,7 @@ export class NexusClient {
    */
   public async voidTransaction(request: VoidRequest): Promise<VoidResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'VoidRequest cannot be null'
       );
@@ -199,7 +199,7 @@ export class NexusClient {
    */
   public async abort(request: AbortRequest): Promise<AbortResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'AbortRequest cannot be null'
       );
@@ -215,7 +215,7 @@ export class NexusClient {
    */
   public async tipAdjust(request: TipAdjustRequest): Promise<TipAdjustResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'TipAdjustRequest cannot be null'
       );
@@ -231,7 +231,7 @@ export class NexusClient {
    */
   public async query(request: QueryRequest): Promise<QueryResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'QueryRequest cannot be null'
       );
@@ -250,7 +250,7 @@ export class NexusClient {
    */
   public async batchClose(request: BatchCloseRequest): Promise<BatchCloseResponse> {
     if (!request) {
-      throw new SunbayBusinessException(
+      throw new SunbayBusinessError(
         ApiConstants.ERROR_CODE_PARAMETER_ERROR,
         'BatchCloseRequest cannot be null'
       );

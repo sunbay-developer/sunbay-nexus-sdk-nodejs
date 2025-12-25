@@ -1,9 +1,9 @@
 /**
- * Sunbay network exception
+ * Sunbay network error
  *
- * @since 2025-12-24
+ * @since 2025-01-24
  */
-export class SunbayNetworkException extends Error {
+export class SunbayNetworkError extends Error {
   /**
    * Whether the error is retryable
    */
@@ -18,7 +18,7 @@ export class SunbayNetworkException extends Error {
   constructor(message: string, retryable: boolean);
   constructor(message: string, causeOrRetryable?: Error | boolean, retryable?: boolean) {
     super(message);
-    this.name = 'SunbayNetworkException';
+    this.name = 'SunbayNetworkError';
 
     if (causeOrRetryable instanceof Error) {
       this.cause = causeOrRetryable;
@@ -31,7 +31,7 @@ export class SunbayNetworkException extends Error {
   }
 
   public toString(): string {
-    return `SunbayNetworkException{message='${this.message}', retryable=${this.retryable}}`;
+    return `SunbayNetworkError{message='${this.message}', retryable=${this.retryable}}`;
   }
 }
 

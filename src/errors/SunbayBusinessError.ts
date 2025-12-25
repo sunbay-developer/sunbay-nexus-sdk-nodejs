@@ -1,19 +1,19 @@
 /**
- * Sunbay SDK business exception
+ * Sunbay SDK business error
  * <p>
- * Used for API business exceptions and parameter validation errors
+ * Used for API business errors and parameter validation errors
  * </p>
  *
- * @since 2025-12-24
+ * @since 2025-01-24
  */
-export class SunbayBusinessException extends Error {
+export class SunbayBusinessError extends Error {
   /**
-   * API error code (for API exceptions)
+   * API error code (for API errors)
    */
   public readonly code?: string;
 
   /**
-   * Trace ID (for API exceptions)
+   * Trace ID (for API errors)
    */
   public readonly traceId?: string;
 
@@ -24,15 +24,15 @@ export class SunbayBusinessException extends Error {
     if (messageOrCause === undefined) {
       // Single parameter: message only
       super(codeOrMessage);
-      this.name = 'SunbayBusinessException';
+      this.name = 'SunbayBusinessError';
     } else if (traceId === undefined && !codeOrMessage.startsWith('C')) {
       // Two parameters: message and cause
       super(codeOrMessage);
-      this.name = 'SunbayBusinessException';
+      this.name = 'SunbayBusinessError';
     } else {
       // Three parameters or code starts with 'C': code, message, traceId
       super(messageOrCause);
-      this.name = 'SunbayBusinessException';
+      this.name = 'SunbayBusinessError';
       this.code = codeOrMessage;
       this.traceId = traceId;
     }
@@ -40,9 +40,9 @@ export class SunbayBusinessException extends Error {
 
   public toString(): string {
     if (this.code) {
-      return `SunbayBusinessException{code='${this.code}', message='${this.message}', traceId='${this.traceId || ''}'}`;
+      return `SunbayBusinessError{code='${this.code}', message='${this.message}', traceId='${this.traceId || ''}'}`;
     }
-    return `SunbayBusinessException{message='${this.message}'}`;
+    return `SunbayBusinessError{message='${this.message}'}`;
   }
 }
 
