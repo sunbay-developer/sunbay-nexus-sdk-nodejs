@@ -30,7 +30,7 @@ export interface TipAdjustRequest {
   originalTransactionRequestId?: string;
 
   /**
-   * New tip amount after adjustment, in basic currency unit
+   * New tip amount after adjustment, in smallest currency unit (e.g., cents for USD, fen for CNY)
    */
   tipAmount: number;
 

@@ -1,5 +1,6 @@
 /**
  * Amount information
+ * All amount fields are in the smallest currency unit (e.g., cents for USD, fen for CNY)
  *
  * @since 2025-12-24
  */
@@ -10,32 +11,32 @@ export interface Amount {
   priceCurrency?: string;
 
   /**
-   * Transaction amount (calculated field in response)
+   * Transaction amount (calculated field in response, in smallest currency unit)
    */
   transAmount?: number;
 
   /**
-   * Order amount
+   * Order amount (in smallest currency unit)
    */
   orderAmount?: number;
 
   /**
-   * Tax amount
+   * Tax amount (in smallest currency unit)
    */
   taxAmount?: number;
 
   /**
-   * Surcharge amount
+   * Surcharge amount (in smallest currency unit)
    */
   surchargeAmount?: number;
 
   /**
-   * Tip amount
+   * Tip amount (in smallest currency unit)
    */
   tipAmount?: number;
 
   /**
-   * Cashback amount
+   * Cashback amount (in smallest currency unit)
    */
   cashbackAmount?: number;
 

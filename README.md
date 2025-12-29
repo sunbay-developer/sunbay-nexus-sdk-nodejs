@@ -67,6 +67,11 @@ const client = new NexusClient({
 
 ### 2. Sale Transaction
 
+> **Important**: All amount fields are in the smallest currency unit (integer). For example:
+> - USD: amounts are in **cents** (100.00 USD = 10000 cents)
+> - CNY: amounts are in **fen** (100.00 CNY = 10000 fen)
+> - Other currencies: use the smallest unit according to ISO 4217
+
 **JavaScript (CommonJS)**
 ```javascript
 const {
@@ -83,9 +88,9 @@ const expireTime = new Date();
 expireTime.setMinutes(expireTime.getMinutes() + 10);
 const timeExpire = expireTime.toISOString();
 
-// Build amount
+// Build amount (amounts are in smallest currency unit, e.g., cents for USD)
 const amount = {
-  orderAmount: 100.00,
+  orderAmount: 10000, // 100.00 USD = 10000 cents
   pricingCurrency: 'USD',
 };
 
@@ -140,9 +145,9 @@ const expireTime = new Date();
 expireTime.setMinutes(expireTime.getMinutes() + 10);
 const timeExpire = expireTime.toISOString();
 
-// Build amount
+// Build amount (amounts are in smallest currency unit, e.g., cents for USD)
 const amount: SaleAmount = {
-  orderAmount: 100.00,
+  orderAmount: 10000, // 100.00 USD = 10000 cents
   pricingCurrency: 'USD',
 };
 

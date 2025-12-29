@@ -17,7 +17,7 @@ export interface TipAdjustResponse extends BaseResponse {
   originalTransactionRequestId?: string;
 
   /**
-   * Adjusted tip amount, in basic currency unit, returned as-is from request
+   * Adjusted tip amount, in smallest currency unit (e.g., cents for USD, fen for CNY), returned as-is from request
    */
   tipAmount?: number;
 }
