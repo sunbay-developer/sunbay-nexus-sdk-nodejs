@@ -39,10 +39,5 @@ export interface Amount {
    * Cashback amount (in smallest currency unit)
    */
   cashbackAmount?: number;
-
-  /**
-   * Pricing currency (ISO 4217, used in request)
-   */
-  pricingCurrency?: string;
 }
 

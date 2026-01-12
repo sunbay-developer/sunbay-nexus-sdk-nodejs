@@ -1,6 +1,6 @@
 /**
  * Authorization amount information
- * Supports: orderAmount, pricingCurrency only
+ * Supports: orderAmount, priceCurrency only
  * Used for: Auth, ForcedAuth, IncrementalAuth
  * All amount fields are in the smallest currency unit (e.g., cents for USD, fen for CNY)
  *
@@ -13,8 +13,8 @@ export interface AuthAmount {
   orderAmount: number;
 
   /**
-   * Pricing currency (ISO 4217, required)
+   * Price currency (ISO 4217, required)
    */
-  pricingCurrency: string;
+  priceCurrency: string;
 }
 

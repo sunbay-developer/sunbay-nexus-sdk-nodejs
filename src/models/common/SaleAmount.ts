@@ -32,8 +32,8 @@ export interface SaleAmount {
   cashbackAmount?: number;
 
   /**
-   * Pricing currency (ISO 4217, required)
+   * Price currency (ISO 4217, required)
    */
-  pricingCurrency: string;
+  priceCurrency: string;
 }
 

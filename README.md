@@ -91,7 +91,7 @@ const timeExpire = expireTime.toISOString();
 // Build amount (amounts are in smallest currency unit, e.g., cents for USD)
 const amount = {
   orderAmount: 10000, // 100.00 USD = 10000 cents
-  pricingCurrency: 'USD',
+  priceCurrency: 'USD',
 };
 
 // Build sale request
@@ -148,7 +148,7 @@ const timeExpire = expireTime.toISOString();
 // Build amount (amounts are in smallest currency unit, e.g., cents for USD)
 const amount: SaleAmount = {
   orderAmount: 10000, // 100.00 USD = 10000 cents
-  pricingCurrency: 'USD',
+  priceCurrency: 'USD',
 };
 
 // Build sale request

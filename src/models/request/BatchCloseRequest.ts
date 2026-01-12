@@ -25,6 +25,11 @@ export interface BatchCloseRequest {
   terminalSn: string;
 
   /**
+   * Payment channel code
+   */
+  channelCode: string;
+
+  /**
    * Batch close description
    */
   description: string;

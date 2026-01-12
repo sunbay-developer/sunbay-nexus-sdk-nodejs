@@ -26,6 +26,7 @@ export type { AuthAmount } from './models/common/AuthAmount';
 export type { RefundAmount } from './models/common/RefundAmount';
 export type { PostAuthAmount } from './models/common/PostAuthAmount';
 export type { BatchTotalAmount } from './models/common/BatchTotalAmount';
+export type { BatchQueryItem } from './models/common/BatchQueryItem';
 export type { PaymentMethodInfo } from './models/common/PaymentMethodInfo';
 
 // Request models
@@ -40,6 +41,7 @@ export type { AbortRequest } from './models/request/AbortRequest';
 export type { TipAdjustRequest } from './models/request/TipAdjustRequest';
 export type { QueryRequest } from './models/request/QueryRequest';
 export type { BatchCloseRequest } from './models/request/BatchCloseRequest';
+export type { BatchQueryRequest } from './models/request/BatchQueryRequest';
 
 // Response models
 export type { SaleResponse } from './models/response/SaleResponse';
@@ -53,4 +55,5 @@ export type { AbortResponse } from './models/response/AbortResponse';
 export type { TipAdjustResponse } from './models/response/TipAdjustResponse';
 export type { QueryResponse } from './models/response/QueryResponse';
 export type { BatchCloseResponse } from './models/response/BatchCloseResponse';
+export type { BatchQueryResponse } from './models/response/BatchQueryResponse';
 

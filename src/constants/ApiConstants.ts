@@ -76,10 +76,12 @@ export class ApiConstants {
   public static readonly PATH_QUERY = ApiConstants.COMMON_PREFIX + '/transaction/query';
 
   /**
-   * Semi-integration settlement API paths
+   * Settlement API paths
    */
   public static readonly PATH_BATCH_CLOSE =
-    ApiConstants.SEMI_INTEGRATION_PREFIX + '/settlement/batch-close';
+    ApiConstants.COMMON_PREFIX + '/settlement/batch-close';
+  public static readonly PATH_BATCH_QUERY =
+    ApiConstants.COMMON_PREFIX + '/settlement/batch-query';
 
   private constructor() {
     // Utility class, prevent instantiation

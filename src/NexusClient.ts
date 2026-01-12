@@ -16,6 +16,7 @@ import { AbortRequest } from './models/request/AbortRequest';
 import { TipAdjustRequest } from './models/request/TipAdjustRequest';
 import { QueryRequest } from './models/request/QueryRequest';
 import { BatchCloseRequest } from './models/request/BatchCloseRequest';
+import { BatchQueryRequest } from './models/request/BatchQueryRequest';
 
 // Response types
 import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
@@ -29,6 +30,7 @@ import { AbortResponse, AbortResponseImpl } from './models/response/AbortRespons
 import { TipAdjustResponse, TipAdjustResponseImpl } from './models/response/TipAdjustResponse';
 import { QueryResponse, QueryResponseImpl } from './models/response/QueryResponse';
 import { BatchCloseResponse, BatchCloseResponseImpl } from './models/response/BatchCloseResponse';
+import { BatchQueryResponse, BatchQueryResponseImpl } from './models/response/BatchQueryResponse';
 
 /**
  * Sunbay SDK main client
@@ -241,9 +243,6 @@ export class NexusClient {
 
   /**
    * Batch close
-   * <p>
-   * <b>Note: This API is currently under development.</b>
-   * </p>
    *
    * @param request batch close request
    * @return batch close response
@@ -256,6 +255,22 @@ export class NexusClient {
       );
     }
     return this.httpClient.post(ApiConstants.PATH_BATCH_CLOSE, request, BatchCloseResponseImpl);
+  }
+
+  /**
+   * Batch query
+   *
+   * @param request batch query request
+   * @return batch query response
+   */
+  public async batchQuery(request: BatchQueryRequest): Promise<BatchQueryResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'BatchQueryRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(ApiConstants.PATH_BATCH_QUERY, request, BatchQueryResponseImpl);
   }
 
 }
