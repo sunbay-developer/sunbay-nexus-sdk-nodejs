@@ -1,4 +1,5 @@
 import { AuthAmount } from '../common/AuthAmount';
+import type { PrintReceipt } from '../common/PrintReceipt';
 
 /**
  * Incremental authorization request
@@ -55,5 +56,10 @@ export interface IncrementalAuthRequest {
    * Asynchronous notification URL
    */
   notifyUrl?: string;
+
+  /**
+   * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
+   */
+  printReceipt?: PrintReceipt;
 }
 

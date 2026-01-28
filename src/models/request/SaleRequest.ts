@@ -1,5 +1,6 @@
 import { SaleAmount } from '../common/SaleAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
+import type { PrintReceipt } from '../common/PrintReceipt';
 
 /**
  * Sale transaction request
@@ -63,5 +64,10 @@ export interface SaleRequest {
    * Transaction expiration time, format: yyyy-MM-DDTHH:mm:ss+TIMEZONE (ISO 8601). Transaction will be closed if payment is not completed after this time. Minimum 3 minutes, maximum 1 day, default 1 day if not provided
    */
   timeExpire?: string;
+
+  /**
+   * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
+   */
+  printReceipt?: PrintReceipt;
 }
 

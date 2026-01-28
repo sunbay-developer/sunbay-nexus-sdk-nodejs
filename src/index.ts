@@ -28,6 +28,7 @@ export type { PostAuthAmount } from './models/common/PostAuthAmount';
 export type { BatchTotalAmount } from './models/common/BatchTotalAmount';
 export type { BatchQueryItem } from './models/common/BatchQueryItem';
 export type { PaymentMethodInfo } from './models/common/PaymentMethodInfo';
+export type { PrintReceipt } from './models/common/PrintReceipt';
 
 // Request models
 export type { SaleRequest } from './models/request/SaleRequest';

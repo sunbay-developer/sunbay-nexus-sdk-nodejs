@@ -1,3 +1,5 @@
+import type { PrintReceipt } from '../common/PrintReceipt';
+
 /**
  * Void request
  *
@@ -48,5 +50,10 @@ export interface VoidRequest {
    * Asynchronous notification URL
    */
   notifyUrl?: string;
+
+  /**
+   * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
+   */
+  printReceipt?: PrintReceipt;
 }
 
