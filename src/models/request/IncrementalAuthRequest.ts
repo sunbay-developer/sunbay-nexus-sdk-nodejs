@@ -61,5 +61,10 @@ export interface IncrementalAuthRequest {
    * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
    */
   printReceipt?: PrintReceipt;
+
+  /**
+   * Whether to push the transaction to the terminal. Default: true
+   */
+  pushToTerminal?: boolean;
 }
 
