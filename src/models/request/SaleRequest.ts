@@ -41,6 +41,11 @@ export interface SaleRequest {
   paymentMethod?: PaymentMethodInfo;
 
   /**
+   * Card network type (e.g. CREDIT, DEBIT, EBT, EGC, UNKNOWN). Only effective when paymentMethod.category is CARD; when not specified the system will auto-detect
+   */
+  cardNetworkType?: string;
+
+  /**
    * Product description. Should be a real description representing the product information, may be displayed on some payment App billing pages
    */
   description: string;

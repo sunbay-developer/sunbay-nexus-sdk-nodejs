@@ -49,6 +49,11 @@ export interface RefundRequest {
   paymentMethod?: PaymentMethodInfo;
 
   /**
+   * Card network type (e.g. CREDIT, DEBIT, EBT, EGC, UNKNOWN). Only effective when paymentMethod.category is CARD; when not specified the system will auto-detect
+   */
+  cardNetworkType?: string;
+
+  /**
    * Refund reason description. Should be a real description representing the refund reason
    */
   description: string;
