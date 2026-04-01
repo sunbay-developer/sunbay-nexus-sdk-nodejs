@@ -17,6 +17,8 @@ import { TipAdjustRequest } from './models/request/TipAdjustRequest';
 import { QueryRequest } from './models/request/QueryRequest';
 import { BatchCloseRequest } from './models/request/BatchCloseRequest';
 import { BatchQueryRequest } from './models/request/BatchQueryRequest';
+import { CreateCheckoutSessionRequest } from './models/request/CreateCheckoutSessionRequest';
+import { CheckoutDirectPaymentRequest } from './models/request/CheckoutDirectPaymentRequest';
 
 // Response types
 import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
@@ -31,6 +33,14 @@ import { TipAdjustResponse, TipAdjustResponseImpl } from './models/response/TipA
 import { QueryResponse, QueryResponseImpl } from './models/response/QueryResponse';
 import { BatchCloseResponse, BatchCloseResponseImpl } from './models/response/BatchCloseResponse';
 import { BatchQueryResponse, BatchQueryResponseImpl } from './models/response/BatchQueryResponse';
+import {
+  CreateCheckoutSessionResponse,
+  CreateCheckoutSessionResponseImpl,
+} from './models/response/CreateCheckoutSessionResponse';
+import {
+  CheckoutDirectPaymentResponse,
+  CheckoutDirectPaymentResponseImpl,
+} from './models/response/CheckoutDirectPaymentResponse';
 
 /**
  * Sunbay SDK main client
@@ -271,6 +281,52 @@ export class NexusClient {
       );
     }
     return this.httpClient.post(ApiConstants.PATH_BATCH_QUERY, request, BatchQueryResponseImpl);
+  }
+
+  /**
+   * Create Hosted Payment Page checkout session (POST /v1/checkout/create-session).
+   *
+   * @param request create session request
+   * @return response including checkout URL and expiry
+   * @see https://docs.sunbay.dev/en/refspec/online/checkout/checkout-api-integration
+   */
+  public async createCheckoutSession(
+    request: CreateCheckoutSessionRequest
+  ): Promise<CreateCheckoutSessionResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'CreateCheckoutSessionRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(
+      ApiConstants.PATH_CHECKOUT_CREATE_SESSION,
+      request,
+      CreateCheckoutSessionResponseImpl
+    );
+  }
+
+  /**
+   * Online direct payment (POST /v1/checkout/sale), e.g. Google Pay / Apple Pay.
+   *
+   * @param request direct payment request
+   * @return payment response
+   * @see https://docs.sunbay.dev/en/refspec/online/direct-payment
+   */
+  public async checkoutDirectPayment(
+    request: CheckoutDirectPaymentRequest
+  ): Promise<CheckoutDirectPaymentResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'CheckoutDirectPaymentRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(
+      ApiConstants.PATH_CHECKOUT_SALE,
+      request,
+      CheckoutDirectPaymentResponseImpl
+    );
   }
 
 }

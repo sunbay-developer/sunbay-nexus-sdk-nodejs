@@ -83,6 +83,14 @@ export class ApiConstants {
   public static readonly PATH_BATCH_QUERY =
     ApiConstants.COMMON_PREFIX + '/settlement/batch-query';
 
+  /**
+   * Online checkout API paths (Hosted Payment Page and direct payment)
+   */
+  public static readonly PATH_CHECKOUT_CREATE_SESSION =
+    ApiConstants.COMMON_PREFIX + '/checkout/create-session';
+  public static readonly PATH_CHECKOUT_SALE =
+    ApiConstants.COMMON_PREFIX + '/checkout/sale';
+
   private constructor() {
     // Utility class, prevent instantiation
   }

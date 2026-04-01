@@ -29,6 +29,9 @@ export type { BatchTotalAmount } from './models/common/BatchTotalAmount';
 export type { BatchQueryItem } from './models/common/BatchQueryItem';
 export type { PaymentMethodInfo, EbtSubId } from './models/common/PaymentMethodInfo';
 export type { PrintReceipt } from './models/common/PrintReceipt';
+export type { CheckoutAmount } from './models/common/CheckoutAmount';
+export type { CheckoutProductItem } from './models/common/CheckoutProductItem';
+export type { CheckoutAddress } from './models/common/CheckoutAddress';
 
 // Request models
 export type { SaleRequest } from './models/request/SaleRequest';
@@ -43,6 +46,11 @@ export type { TipAdjustRequest } from './models/request/TipAdjustRequest';
 export type { QueryRequest } from './models/request/QueryRequest';
 export type { BatchCloseRequest } from './models/request/BatchCloseRequest';
 export type { BatchQueryRequest } from './models/request/BatchQueryRequest';
+export type { CreateCheckoutSessionRequest } from './models/request/CreateCheckoutSessionRequest';
+export type {
+  CheckoutDirectPaymentRequest,
+  CheckoutWalletPaymentMethod,
+} from './models/request/CheckoutDirectPaymentRequest';
 
 // Response models
 export type { SaleResponse } from './models/response/SaleResponse';
@@ -57,4 +65,6 @@ export type { TipAdjustResponse } from './models/response/TipAdjustResponse';
 export type { QueryResponse } from './models/response/QueryResponse';
 export type { BatchCloseResponse } from './models/response/BatchCloseResponse';
 export type { BatchQueryResponse } from './models/response/BatchQueryResponse';
+export type { CreateCheckoutSessionResponse } from './models/response/CreateCheckoutSessionResponse';
+export type { CheckoutDirectPaymentResponse } from './models/response/CheckoutDirectPaymentResponse';
 

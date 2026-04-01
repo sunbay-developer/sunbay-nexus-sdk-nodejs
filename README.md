@@ -2,6 +2,8 @@
 
 Official Node.js SDK for Sunbay Nexus Payment Platform
 
+**Package version:** 1.0.11
+
 ## Features
 
 - ✅ Simple and intuitive API
@@ -253,6 +255,14 @@ All request classes support object literal syntax. The SDK provides the followin
 ### Settlement APIs
 
 - `batchClose(request: BatchCloseRequest): Promise<BatchCloseResponse>` - Batch close
+- `batchQuery(request: BatchQueryRequest): Promise<BatchQueryResponse>` - Batch query
+
+### Online APIs (Hosted Payment Page & direct payment)
+
+Checkout amounts use the smallest currency unit (same as semi-integration). See [Create checkout session](https://docs.sunbay.dev/en/refspec/online/checkout/checkout-api-integration) and [Direct payment](https://docs.sunbay.dev/en/refspec/online/direct-payment).
+
+- `createCheckoutSession(request: CreateCheckoutSessionRequest): Promise<CreateCheckoutSessionResponse>` — POST `/v1/checkout/create-session`; returns `checkoutUrl` and `expiresAt` (session valid 30 minutes)
+- `checkoutDirectPayment(request: CheckoutDirectPaymentRequest): Promise<CheckoutDirectPaymentResponse>` — POST `/v1/checkout/sale` (e.g. Google Pay / Apple Pay with `paymentMethod` and `cardEncryptedData`)
 
 ## Error Handling
 
