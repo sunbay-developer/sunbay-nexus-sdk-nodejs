@@ -20,6 +20,11 @@ export interface SaleResponse extends BaseResponse {
    * Transaction request ID, returned as-is from request
    */
   transactionRequestId?: string;
+
+  /**
+   * Transaction status (e.g. INITIAL, PROCESSING, SUCCESS, FAIL, CLOSED)
+   */
+  transactionStatus?: string;
 }
 
 /**
@@ -29,5 +34,6 @@ export class SaleResponseImpl extends BaseResponseImpl implements SaleResponse {
   public transactionId?: string;
   public referenceOrderId?: string;
   public transactionRequestId?: string;
+  public transactionStatus?: string;
 }
 

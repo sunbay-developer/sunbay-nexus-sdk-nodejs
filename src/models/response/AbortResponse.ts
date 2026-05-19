@@ -15,10 +15,16 @@ export interface AbortResponse extends BaseResponse {
    * Aborted transaction's request ID (only returned when provided in request)
    */
   originalTransactionRequestId?: string;
+
+  /**
+   * Transaction status (e.g. INITIAL, PROCESSING, SUCCESS, FAIL, CLOSED)
+   */
+  transactionStatus?: string;
 }
 
 export class AbortResponseImpl extends BaseResponseImpl implements AbortResponse {
   public originalTransactionId?: string;
   public originalTransactionRequestId?: string;
+  public transactionStatus?: string;
 }
 

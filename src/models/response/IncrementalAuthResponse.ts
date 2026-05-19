@@ -25,6 +25,11 @@ export interface IncrementalAuthResponse extends BaseResponse {
    * Original authorization transaction request ID, returned as-is from request (only returned when provided in request)
    */
   originalTransactionRequestId?: string;
+
+  /**
+   * Transaction status (e.g. INITIAL, PROCESSING, SUCCESS, FAIL, CLOSED)
+   */
+  transactionStatus?: string;
 }
 
 export class IncrementalAuthResponseImpl extends BaseResponseImpl implements IncrementalAuthResponse {
@@ -32,5 +37,6 @@ export class IncrementalAuthResponseImpl extends BaseResponseImpl implements Inc
   public transactionRequestId?: string;
   public originalTransactionId?: string;
   public originalTransactionRequestId?: string;
+  public transactionStatus?: string;
 }
 

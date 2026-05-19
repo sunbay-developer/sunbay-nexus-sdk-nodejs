@@ -32,6 +32,7 @@ export type { PrintReceipt } from './models/common/PrintReceipt';
 export type { CheckoutAmount } from './models/common/CheckoutAmount';
 export type { CheckoutProductItem } from './models/common/CheckoutProductItem';
 export type { CheckoutAddress } from './models/common/CheckoutAddress';
+export type { TipConfig, TipSuggestions } from './models/common/TipConfig';
 
 // Request models
 export type { SaleRequest } from './models/request/SaleRequest';

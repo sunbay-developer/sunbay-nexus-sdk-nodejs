@@ -30,6 +30,11 @@ export interface RefundResponse extends BaseResponse {
    * Original transaction request ID (only returned for refund with reference)
    */
   originalTransactionRequestId?: string;
+
+  /**
+   * Transaction status (e.g. INITIAL, PROCESSING, SUCCESS, FAIL, CLOSED)
+   */
+  transactionStatus?: string;
 }
 
 export class RefundResponseImpl extends BaseResponseImpl implements RefundResponse {
@@ -38,5 +43,6 @@ export class RefundResponseImpl extends BaseResponseImpl implements RefundRespon
   public transactionRequestId?: string;
   public originalTransactionId?: string;
   public originalTransactionRequestId?: string;
+  public transactionStatus?: string;
 }
 

@@ -1,5 +1,6 @@
 import { PostAuthAmount } from '../common/PostAuthAmount';
 import type { PrintReceipt } from '../common/PrintReceipt';
+import type { TipConfig } from '../common/TipConfig';
 
 /**
  * Post authorization request
@@ -66,5 +67,10 @@ export interface PostAuthRequest {
    * Whether to push the transaction to the terminal. Default: true
    */
   pushToTerminal?: boolean;
+
+  /**
+   * Tip configuration for on-screen tip prompts
+   */
+  tipConfig?: TipConfig;
 }
 

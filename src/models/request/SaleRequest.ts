@@ -1,6 +1,7 @@
 import { SaleAmount } from '../common/SaleAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
 import type { PrintReceipt } from '../common/PrintReceipt';
+import type { TipConfig } from '../common/TipConfig';
 
 /**
  * Sale transaction request
@@ -74,5 +75,10 @@ export interface SaleRequest {
    * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
    */
   printReceipt?: PrintReceipt;
+
+  /**
+   * Tip configuration for on-screen tip prompts
+   */
+  tipConfig?: TipConfig;
 }
 

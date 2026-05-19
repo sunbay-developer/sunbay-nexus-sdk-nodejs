@@ -25,6 +25,11 @@ export interface VoidResponse extends BaseResponse {
    * Original transaction request ID
    */
   originalTransactionRequestId?: string;
+
+  /**
+   * Transaction status (e.g. INITIAL, PROCESSING, SUCCESS, FAIL, CLOSED)
+   */
+  transactionStatus?: string;
 }
 
 export class VoidResponseImpl extends BaseResponseImpl implements VoidResponse {
@@ -32,5 +37,6 @@ export class VoidResponseImpl extends BaseResponseImpl implements VoidResponse {
   public transactionRequestId?: string;
   public originalTransactionId?: string;
   public originalTransactionRequestId?: string;
+  public transactionStatus?: string;
 }
 

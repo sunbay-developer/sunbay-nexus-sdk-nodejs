@@ -1,6 +1,6 @@
 {
   "name": "@sunbay/sunbay-nexus-sdk",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Official Node.js SDK for Sunbay Nexus Payment Platform",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,7 +12,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "publish:npm": "bash scripts/publish-npm.sh"
   },
   "keywords": [
     "sunbay",
@@ -21,6 +22,10 @@
     "sdk",
     "nodejs"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
