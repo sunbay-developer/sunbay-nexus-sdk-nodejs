@@ -106,6 +106,7 @@ const request = {
   description: 'Product purchase',
   terminalSn: 'T1234567890',
   timeExpire: timeExpire,
+  signatureEntryLocation: 'ON_SCREEN',
 };
 
 // Execute transaction
@@ -163,6 +164,7 @@ const request: SaleRequest = {
   description: 'Product purchase',
   terminalSn: 'T1234567890',
   timeExpire: timeExpire,
+  signatureEntryLocation: 'ON_SCREEN',
 };
 
 // Execute transaction
@@ -185,6 +187,8 @@ try {
   }
 }
 ```
+
+`sale` and `auth` requests also accept `signatureEntryLocation: 'ON_SCREEN' | 'ON_RECEIPT'`; omit it to use the backend default.
 
 ### 3. Query Transaction
 
@@ -472,4 +476,3 @@ src/
 ## License
 
 MIT License
-

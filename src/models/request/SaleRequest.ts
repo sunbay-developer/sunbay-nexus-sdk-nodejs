@@ -1,6 +1,7 @@
 import { SaleAmount } from '../common/SaleAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
 import type { PrintReceipt } from '../common/PrintReceipt';
+import type { SignatureEntryLocation } from '../common/SignatureEntryLocation';
 import type { TipConfig } from '../common/TipConfig';
 
 /**
@@ -77,8 +78,12 @@ export interface SaleRequest {
   printReceipt?: PrintReceipt;
 
   /**
+   * Signature entry location. ON_SCREEN: terminal screen signature; ON_RECEIPT: receipt signature. Default: backend configuration
+   */
+  signatureEntryLocation?: SignatureEntryLocation;
+
+  /**
    * Tip configuration for on-screen tip prompts
    */
   tipConfig?: TipConfig;
 }
-

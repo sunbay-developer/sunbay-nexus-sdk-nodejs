@@ -1,6 +1,7 @@
 import { AuthAmount } from '../common/AuthAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
 import type { PrintReceipt } from '../common/PrintReceipt';
+import type { SignatureEntryLocation } from '../common/SignatureEntryLocation';
 
 /**
  * Authorization request
@@ -72,5 +73,9 @@ export interface AuthRequest {
    * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
    */
   printReceipt?: PrintReceipt;
-}
 
+  /**
+   * Signature entry location. ON_SCREEN: terminal screen signature; ON_RECEIPT: receipt signature. Default: backend configuration
+   */
+  signatureEntryLocation?: SignatureEntryLocation;
+}

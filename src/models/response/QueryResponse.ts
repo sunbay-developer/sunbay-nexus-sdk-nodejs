@@ -5,6 +5,8 @@ import { TransactionType } from '../../enums/TransactionType';
 import { EntryMode } from '../../enums/EntryMode';
 import { CardNetworkType } from '../../enums/CardNetworkType';
 import { AuthenticationMethod } from '../../enums/AuthenticationMethod';
+import { RelatedTransactionStatus } from '../../enums/RelatedTransactionStatus';
+import { TransactionBatchStatus } from '../../enums/TransactionBatchStatus';
 
 /**
  * Query response
@@ -129,6 +131,18 @@ export interface QueryResponse extends BaseResponse {
   description?: string;
 
   /**
+   * Related transaction status, indicates lifecycle change due to subsequent transactions.
+   * e.g. the current transaction is a sale but was later refunded.
+   */
+  relatedTransactionStatus?: RelatedTransactionStatus;
+
+  /**
+   * Transaction batch settlement status.
+   * NB: no batch settlement needed; UB: waiting for batch close; BC: batch closed.
+   */
+  transactionBatchStatus?: TransactionBatchStatus;
+
+  /**
    * Additional data, returned as-is
    */
   attach?: string;
@@ -161,6 +175,8 @@ export class QueryResponseImpl extends BaseResponseImpl implements QueryResponse
   public transactionResultMsg?: string;
   public terminalSn?: string;
   public description?: string;
+  public relatedTransactionStatus?: RelatedTransactionStatus;
+  public transactionBatchStatus?: TransactionBatchStatus;
   public attach?: string;
 }
 

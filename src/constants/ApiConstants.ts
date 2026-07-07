@@ -91,6 +91,12 @@ export class ApiConstants {
   public static readonly PATH_CHECKOUT_SALE =
     ApiConstants.COMMON_PREFIX + '/checkout/sale';
 
+  /**
+   * Online checkout refund API path
+   */
+  public static readonly PATH_CHECKOUT_REFUND =
+    ApiConstants.COMMON_PREFIX + '/checkout/refund';
+
   private constructor() {
     // Utility class, prevent instantiation
   }

@@ -17,6 +17,8 @@ export { EntryMode } from './enums/EntryMode';
 export { CardNetworkType } from './enums/CardNetworkType';
 export { PaymentCategory } from './enums/PaymentCategory';
 export { AuthenticationMethod } from './enums/AuthenticationMethod';
+export { RelatedTransactionStatus } from './enums/RelatedTransactionStatus';
+export { TransactionBatchStatus } from './enums/TransactionBatchStatus';
 
 // Common models
 export type { BaseResponse } from './models/common/BaseResponse';
@@ -29,10 +31,12 @@ export type { BatchTotalAmount } from './models/common/BatchTotalAmount';
 export type { BatchQueryItem } from './models/common/BatchQueryItem';
 export type { PaymentMethodInfo, EbtSubId } from './models/common/PaymentMethodInfo';
 export type { PrintReceipt } from './models/common/PrintReceipt';
+export type { SignatureEntryLocation } from './models/common/SignatureEntryLocation';
 export type { CheckoutAmount } from './models/common/CheckoutAmount';
 export type { CheckoutProductItem } from './models/common/CheckoutProductItem';
 export type { CheckoutAddress } from './models/common/CheckoutAddress';
 export type { TipConfig, TipSuggestions } from './models/common/TipConfig';
+export type { OnlineRefundAmount } from './models/common/OnlineRefundAmount';
 
 // Request models
 export type { SaleRequest } from './models/request/SaleRequest';
@@ -52,6 +56,7 @@ export type {
   CheckoutDirectPaymentRequest,
   CheckoutWalletPaymentMethod,
 } from './models/request/CheckoutDirectPaymentRequest';
+export type { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
 
 // Response models
 export type { SaleResponse } from './models/response/SaleResponse';
@@ -68,4 +73,4 @@ export type { BatchCloseResponse } from './models/response/BatchCloseResponse';
 export type { BatchQueryResponse } from './models/response/BatchQueryResponse';
 export type { CreateCheckoutSessionResponse } from './models/response/CreateCheckoutSessionResponse';
 export type { CheckoutDirectPaymentResponse } from './models/response/CheckoutDirectPaymentResponse';
-
+export type { OnlineRefundResponse } from './models/response/OnlineRefundResponse';

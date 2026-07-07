@@ -19,6 +19,7 @@ import { BatchCloseRequest } from './models/request/BatchCloseRequest';
 import { BatchQueryRequest } from './models/request/BatchQueryRequest';
 import { CreateCheckoutSessionRequest } from './models/request/CreateCheckoutSessionRequest';
 import { CheckoutDirectPaymentRequest } from './models/request/CheckoutDirectPaymentRequest';
+import { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
 
 // Response types
 import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
@@ -41,6 +42,10 @@ import {
   CheckoutDirectPaymentResponse,
   CheckoutDirectPaymentResponseImpl,
 } from './models/response/CheckoutDirectPaymentResponse';
+import {
+  OnlineRefundResponse,
+  OnlineRefundResponseImpl,
+} from './models/response/OnlineRefundResponse';
 
 /**
  * Sunbay SDK main client
@@ -326,6 +331,26 @@ export class NexusClient {
       ApiConstants.PATH_CHECKOUT_SALE,
       request,
       CheckoutDirectPaymentResponseImpl
+    );
+  }
+
+  /**
+   * Online refund (POST /v1/checkout/refund).
+   *
+   * @param request online refund request
+   * @return online refund response
+   */
+  public async onlineRefund(request: OnlineRefundRequest): Promise<OnlineRefundResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'OnlineRefundRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(
+      ApiConstants.PATH_CHECKOUT_REFUND,
+      request,
+      OnlineRefundResponseImpl
     );
   }
 
