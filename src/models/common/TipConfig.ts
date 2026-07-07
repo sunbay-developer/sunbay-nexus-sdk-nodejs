@@ -5,13 +5,19 @@
  */
 export interface TipSuggestions {
   /**
+   * Display names for tip options.
+   * Must match values in length and order if not empty. Max 3.
+   */
+  names: string[];
+
+  /**
    * Fee mode: RATE (percentage) or AMOUNT (fixed amount)
    */
   feeMode: 'RATE' | 'AMOUNT';
 
   /**
    * Suggested tip values. When feeMode is RATE, values represent percentages (e.g., 15 = 15%).
-   * When feeMode is AMOUNT, values represent amounts in smallest currency unit.
+   * When feeMode is AMOUNT, values represent amounts in smallest currency unit. Max 3.
    */
   values: number[];
 }
@@ -38,7 +44,7 @@ export interface TipConfig {
   tipWithTax: boolean;
 
   /**
-   * Tip suggestion configuration
+   * Tip suggestion list, max 3 items.
    */
-  suggestions?: TipSuggestions;
+  suggestions?: TipSuggestions[];
 }

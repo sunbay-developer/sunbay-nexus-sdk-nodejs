@@ -138,7 +138,7 @@ export interface QueryResponse extends BaseResponse {
 
   /**
    * Transaction batch settlement status.
-   * NB: no batch settlement needed; UB: waiting for batch close; BC: batch closed.
+   * N: no batch settlement needed; U: waiting for batch close; C: batch closed.
    */
   transactionBatchStatus?: TransactionBatchStatus;
 
@@ -179,4 +179,3 @@ export class QueryResponseImpl extends BaseResponseImpl implements QueryResponse
   public transactionBatchStatus?: TransactionBatchStatus;
   public attach?: string;
 }
-

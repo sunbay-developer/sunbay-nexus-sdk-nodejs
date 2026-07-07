@@ -7,15 +7,15 @@ export enum TransactionBatchStatus {
   /**
    * No batch settlement needed
    */
-  NB = 'NB',
+  N = 'N',
 
   /**
    * Waiting for batch close
    */
-  UB = 'UB',
+  U = 'U',
 
   /**
    * Batch closed
    */
-  BC = 'BC',
+  C = 'C',
 }
