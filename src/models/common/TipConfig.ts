@@ -44,7 +44,7 @@ export interface TipConfig {
   tipWithTax: boolean;
 
   /**
-   * Tip suggestion list, max 3 items.
+   * Tip suggestion configuration with names and values (max 3 each).
    */
-  suggestions?: TipSuggestions[];
+  suggestions?: TipSuggestions;
 }
