@@ -20,6 +20,7 @@ import { BatchQueryRequest } from './models/request/BatchQueryRequest';
 import { CreateCheckoutSessionRequest } from './models/request/CreateCheckoutSessionRequest';
 import { CheckoutDirectPaymentRequest } from './models/request/CheckoutDirectPaymentRequest';
 import { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
+import { ExpireCheckoutSessionRequest } from './models/request/ExpireCheckoutSessionRequest';
 
 // Response types
 import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
@@ -46,6 +47,10 @@ import {
   OnlineRefundResponse,
   OnlineRefundResponseImpl,
 } from './models/response/OnlineRefundResponse';
+import {
+  ExpireCheckoutSessionResponse,
+  ExpireCheckoutSessionResponseImpl,
+} from './models/response/ExpireCheckoutSessionResponse';
 
 /**
  * Sunbay SDK main client
@@ -308,6 +313,29 @@ export class NexusClient {
       ApiConstants.PATH_CHECKOUT_CREATE_SESSION,
       request,
       CreateCheckoutSessionResponseImpl
+    );
+  }
+
+  /**
+   * Expire/close a checkout session (POST /v1/checkout/expire-session).
+   *
+   * @param request expire session request
+   * @return expire session response
+   * @see https://docs.sunbay-dev.com/zh/refspec/online/checkout/expire-session
+   */
+  public async expireCheckoutSession(
+    request: ExpireCheckoutSessionRequest
+  ): Promise<ExpireCheckoutSessionResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'ExpireCheckoutSessionRequest cannot be null'
+      );
+    }
+    return this.httpClient.post(
+      ApiConstants.PATH_CHECKOUT_EXPIRE_SESSION,
+      request,
+      ExpireCheckoutSessionResponseImpl
     );
   }
 

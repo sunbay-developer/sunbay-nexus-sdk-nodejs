@@ -57,6 +57,7 @@ export type {
   CheckoutWalletPaymentMethod,
 } from './models/request/CheckoutDirectPaymentRequest';
 export type { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
+export type { ExpireCheckoutSessionRequest } from './models/request/ExpireCheckoutSessionRequest';
 
 // Response models
 export type { SaleResponse } from './models/response/SaleResponse';
@@ -74,3 +75,4 @@ export type { BatchQueryResponse } from './models/response/BatchQueryResponse';
 export type { CreateCheckoutSessionResponse } from './models/response/CreateCheckoutSessionResponse';
 export type { CheckoutDirectPaymentResponse } from './models/response/CheckoutDirectPaymentResponse';
 export type { OnlineRefundResponse } from './models/response/OnlineRefundResponse';
+export type { ExpireCheckoutSessionResponse } from './models/response/ExpireCheckoutSessionResponse';

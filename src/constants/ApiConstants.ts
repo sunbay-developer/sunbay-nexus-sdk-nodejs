@@ -92,6 +92,12 @@ export class ApiConstants {
     ApiConstants.COMMON_PREFIX + '/checkout/sale';
 
   /**
+   * Online checkout expire session API path
+   */
+  public static readonly PATH_CHECKOUT_EXPIRE_SESSION =
+    ApiConstants.COMMON_PREFIX + '/checkout/expire-session';
+
+  /**
    * Online checkout refund API path
    */
   public static readonly PATH_CHECKOUT_REFUND =

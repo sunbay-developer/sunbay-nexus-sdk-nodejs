@@ -2,7 +2,7 @@
 
 Official Node.js SDK for Sunbay Nexus Payment Platform
 
-**Package version:** 1.0.11
+**Package version:** 1.0.15
 
 ## Features
 
