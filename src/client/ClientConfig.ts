@@ -17,12 +17,12 @@ export interface ClientConfig {
   baseUrl?: string;
 
   /**
-   * Connection timeout in milliseconds (optional, default: 30000)
+   * Connection timeout in milliseconds (optional, default: 10000)
    */
   connectTimeout?: number;
 
   /**
-   * Read timeout in milliseconds (optional, default: 60000)
+   * Read timeout in milliseconds (optional, default: 30000)
    */
   readTimeout?: number;
 
@@ -37,7 +37,7 @@ export interface ClientConfig {
   maxTotal?: number;
 
   /**
-   * Maximum connections per route (optional, default: 20)
+   * Maximum connections per route (optional, default: 200)
    */
   maxPerRoute?: number;
 

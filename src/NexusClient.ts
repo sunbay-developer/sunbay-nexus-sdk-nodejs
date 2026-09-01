@@ -77,11 +77,11 @@ import {
  */
 export class NexusClient {
   private static readonly DEFAULT_BASE_URL = 'https://open.sunbay.us';
-  private static readonly DEFAULT_CONNECT_TIMEOUT = 30000;
-  private static readonly DEFAULT_READ_TIMEOUT = 60000;
+  private static readonly DEFAULT_CONNECT_TIMEOUT = 10000;
+  private static readonly DEFAULT_READ_TIMEOUT = 30000;
   private static readonly DEFAULT_MAX_RETRIES = 3;
   private static readonly DEFAULT_MAX_TOTAL = 200;
-  private static readonly DEFAULT_MAX_PER_ROUTE = 20;
+  private static readonly DEFAULT_MAX_PER_ROUTE = 200;
 
   private readonly httpClient: HttpClient;
 
