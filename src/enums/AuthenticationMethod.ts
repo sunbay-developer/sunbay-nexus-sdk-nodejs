@@ -45,6 +45,14 @@ export class AuthenticationMethod {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, AuthenticationMethod> = {
+    'NOT_AUTHENTICATED': AuthenticationMethod.NOT_AUTHENTICATED,
+    'PIN': AuthenticationMethod.PIN,
+    'OFFLINE_PIN': AuthenticationMethod.OFFLINE_PIN,
+    'BY_PASS': AuthenticationMethod.BY_PASS,
+    'SIGNATURE': AuthenticationMethod.SIGNATURE,
+  };
+
   /**
    * Convert code to authentication method
    *
@@ -52,14 +60,7 @@ export class AuthenticationMethod {
    * @return authentication method, or undefined if code is invalid
    */
   public static fromCode(code: string): AuthenticationMethod | undefined {
-    const codeMap: Record<string, AuthenticationMethod> = {
-      'NOT_AUTHENTICATED': AuthenticationMethod.NOT_AUTHENTICATED,
-      'PIN': AuthenticationMethod.PIN,
-      'OFFLINE_PIN': AuthenticationMethod.OFFLINE_PIN,
-      'BY_PASS': AuthenticationMethod.BY_PASS,
-      'SIGNATURE': AuthenticationMethod.SIGNATURE,
-    };
-    return codeMap[code];
+    return AuthenticationMethod.CODE_MAP[code];
   }
 }
 

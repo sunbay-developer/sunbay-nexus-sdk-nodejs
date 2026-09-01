@@ -17,25 +17,19 @@ export class SunbayBusinessError extends Error {
    */
   public readonly traceId?: string;
 
-  constructor(message: string);
-  constructor(message: string, cause: string);
-  constructor(code: string, message: string, traceId?: string);
-  constructor(codeOrMessage: string, messageOrCause?: string, traceId?: string) {
-    if (messageOrCause === undefined) {
-      // Single parameter: message only
-      super(codeOrMessage);
-      this.name = 'SunbayBusinessError';
-    } else if (traceId === undefined && !codeOrMessage.startsWith('C')) {
-      // Two parameters: message and cause
-      super(codeOrMessage);
-      this.name = 'SunbayBusinessError';
-    } else {
-      // Three parameters or code starts with 'C': code, message, traceId
-      super(messageOrCause);
-      this.name = 'SunbayBusinessError';
-      this.code = codeOrMessage;
-      this.traceId = traceId;
-    }
+  /**
+   * Create a business error with code, message, and optional traceId.
+   *
+   * @param code API error code
+   * @param message error message
+   * @param traceId optional trace ID for troubleshooting
+   */
+  constructor(code: string, message: string, traceId?: string) {
+    super(message);
+    this.name = 'SunbayBusinessError';
+    this.code = code;
+    this.traceId = traceId;
+    Object.setPrototypeOf(this, new.target.prototype);
   }
 
   public toString(): string {

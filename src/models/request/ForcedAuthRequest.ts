@@ -64,6 +64,12 @@ export interface ForcedAuthRequest {
   notifyUrl?: string;
 
   /**
+   * Terminal event asynchronous notification URL. When provided, terminal status events
+   * (card swipe, signature, printing, etc.) will be sent to this URL in real-time during the transaction.
+   */
+  terminalEventNotifyUrl?: string;
+
+  /**
    * Transaction expiration time, format: yyyy-MM-DDTHH:mm:ss+TIMEZONE (ISO 8601). Transaction will be closed if payment is not completed after this time. Minimum 3 minutes, maximum 1 day, default 1 day if not provided
    */
   timeExpire?: string;

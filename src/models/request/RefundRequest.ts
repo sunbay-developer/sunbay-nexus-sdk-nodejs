@@ -1,6 +1,7 @@
 import { RefundAmount } from '../common/RefundAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
 import type { PrintReceipt } from '../common/PrintReceipt';
+import type { SignatureEntryLocation, SignatureConfig } from '../common/SignatureEntryLocation';
 
 /**
  * Refund request
@@ -74,6 +75,13 @@ export interface RefundRequest {
   notifyUrl?: string;
 
   /**
+   * Terminal event asynchronous notification URL. When provided, terminal status events
+   * (card swipe, signature, printing, etc.) will be sent to this URL in real-time during the transaction.
+   * Only effective when pushToTerminal is true.
+   */
+  terminalEventNotifyUrl?: string;
+
+  /**
    * Transaction expiration time, format: yyyy-MM-DDTHH:mm:ss+TIMEZONE (ISO 8601). Transaction will be closed if payment is not completed after this time. Minimum 3 minutes, maximum 1 day, default 1 day if not provided. Only used for refund without reference (requires customer operation on terminal), not needed for refund with reference
    */
   timeExpire?: string;
@@ -87,5 +95,19 @@ export interface RefundRequest {
    * Whether to push the transaction to the terminal. Default: true
    */
   pushToTerminal?: boolean;
+
+  /**
+   * Signature entry location. Only effective for refund without reference (both originalTransactionId and originalTransactionRequestId are empty).
+   * ON_SCREEN: terminal screen signature; ON_RECEIPT: receipt signature; NONE: no signature. Default: backend configuration
+   * @deprecated Use {@link signatureConfig} instead.
+   */
+  signatureEntryLocation?: SignatureEntryLocation;
+
+  /**
+   * Signature configuration. Only effective for refund without reference (both originalTransactionId and originalTransactionRequestId are empty).
+   * Replaces the deprecated signatureEntryLocation field.
+   * When not provided, the SUNBAY platform signature configuration is used by default.
+   */
+  signatureConfig?: SignatureConfig;
 }
 

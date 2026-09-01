@@ -21,6 +21,9 @@ import { CreateCheckoutSessionRequest } from './models/request/CreateCheckoutSes
 import { CheckoutDirectPaymentRequest } from './models/request/CheckoutDirectPaymentRequest';
 import { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
 import { ExpireCheckoutSessionRequest } from './models/request/ExpireCheckoutSessionRequest';
+import { BatchCloseListRequest } from './models/request/BatchCloseListRequest';
+import { MerchantQueryRequest } from './models/request/MerchantQueryRequest';
+import { MerchantTerminalsQueryRequest } from './models/request/MerchantTerminalsQueryRequest';
 
 // Response types
 import { SaleResponse, SaleResponseImpl } from './models/response/SaleResponse';
@@ -51,6 +54,18 @@ import {
   ExpireCheckoutSessionResponse,
   ExpireCheckoutSessionResponseImpl,
 } from './models/response/ExpireCheckoutSessionResponse';
+import {
+  BatchCloseListResponse,
+  BatchCloseListResponseImpl,
+} from './models/response/BatchCloseListResponse';
+import {
+  MerchantQueryResponse,
+  MerchantQueryResponseImpl,
+} from './models/response/MerchantQueryResponse';
+import {
+  MerchantTerminalsQueryResponse,
+  MerchantTerminalsQueryResponseImpl,
+} from './models/response/MerchantTerminalsQueryResponse';
 
 /**
  * Sunbay SDK main client
@@ -379,6 +394,68 @@ export class NexusClient {
       ApiConstants.PATH_CHECKOUT_REFUND,
       request,
       OnlineRefundResponseImpl
+    );
+  }
+
+  /**
+   * Query closed (settled) batch list (GET /v1/settlement/batch-close-list).
+   *
+   * @param request batch close list request
+   * @return batch close list response
+   */
+  public async batchCloseList(request: BatchCloseListRequest): Promise<BatchCloseListResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'BatchCloseListRequest cannot be null'
+      );
+    }
+    return this.httpClient.get(
+      ApiConstants.PATH_BATCH_CLOSE_LIST,
+      request,
+      BatchCloseListResponseImpl
+    );
+  }
+
+  /**
+   * Query merchant information (GET /v1/merchant/query).
+   *
+   * @param request merchant query request
+   * @return merchant query response
+   */
+  public async merchantQuery(request: MerchantQueryRequest): Promise<MerchantQueryResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'MerchantQueryRequest cannot be null'
+      );
+    }
+    return this.httpClient.get(
+      ApiConstants.PATH_MERCHANT_QUERY,
+      request,
+      MerchantQueryResponseImpl
+    );
+  }
+
+  /**
+   * Query merchant terminals (GET /v1/merchant/terminals/query).
+   *
+   * @param request merchant terminals query request
+   * @return merchant terminals query response
+   */
+  public async merchantTerminalsQuery(
+    request: MerchantTerminalsQueryRequest
+  ): Promise<MerchantTerminalsQueryResponse> {
+    if (!request) {
+      throw new SunbayBusinessError(
+        ApiConstants.ERROR_CODE_PARAMETER_ERROR,
+        'MerchantTerminalsQueryRequest cannot be null'
+      );
+    }
+    return this.httpClient.get(
+      ApiConstants.PATH_MERCHANT_TERMINALS_QUERY,
+      request,
+      MerchantTerminalsQueryResponseImpl
     );
   }
 

@@ -31,12 +31,18 @@ export type { BatchTotalAmount } from './models/common/BatchTotalAmount';
 export type { BatchQueryItem } from './models/common/BatchQueryItem';
 export type { PaymentMethodInfo, EbtSubId } from './models/common/PaymentMethodInfo';
 export type { PrintReceipt } from './models/common/PrintReceipt';
+export type { BatchClosePrintReceipt } from './models/common/BatchClosePrintReceipt';
 export type { SignatureEntryLocation } from './models/common/SignatureEntryLocation';
+export type { SignatureConfig } from './models/common/SignatureEntryLocation';
 export type { CheckoutAmount } from './models/common/CheckoutAmount';
 export type { CheckoutProductItem } from './models/common/CheckoutProductItem';
 export type { CheckoutAddress } from './models/common/CheckoutAddress';
 export type { TipConfig, TipSuggestions } from './models/common/TipConfig';
 export type { OnlineRefundAmount } from './models/common/OnlineRefundAmount';
+export type { BatchCloseListItem } from './models/common/BatchCloseListItem';
+export type { MerchantMidItem } from './models/common/MerchantMidItem';
+export type { TerminalItem } from './models/common/TerminalItem';
+export type { TerminalTidItem } from './models/common/TerminalTidItem';
 
 // Request models
 export type { SaleRequest } from './models/request/SaleRequest';
@@ -58,6 +64,9 @@ export type {
 } from './models/request/CheckoutDirectPaymentRequest';
 export type { OnlineRefundRequest } from './models/request/OnlineRefundRequest';
 export type { ExpireCheckoutSessionRequest } from './models/request/ExpireCheckoutSessionRequest';
+export type { BatchCloseListRequest } from './models/request/BatchCloseListRequest';
+export type { MerchantQueryRequest } from './models/request/MerchantQueryRequest';
+export type { MerchantTerminalsQueryRequest } from './models/request/MerchantTerminalsQueryRequest';
 
 // Response models
 export type { SaleResponse } from './models/response/SaleResponse';
@@ -76,3 +85,6 @@ export type { CreateCheckoutSessionResponse } from './models/response/CreateChec
 export type { CheckoutDirectPaymentResponse } from './models/response/CheckoutDirectPaymentResponse';
 export type { OnlineRefundResponse } from './models/response/OnlineRefundResponse';
 export type { ExpireCheckoutSessionResponse } from './models/response/ExpireCheckoutSessionResponse';
+export type { BatchCloseListResponse } from './models/response/BatchCloseListResponse';
+export type { MerchantQueryResponse } from './models/response/MerchantQueryResponse';
+export type { MerchantTerminalsQueryResponse } from './models/response/MerchantTerminalsQueryResponse';

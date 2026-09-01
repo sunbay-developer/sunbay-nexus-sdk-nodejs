@@ -19,6 +19,7 @@ export class SunbayNetworkError extends Error {
   constructor(message: string, causeOrRetryable?: Error | boolean, retryable?: boolean) {
     super(message);
     this.name = 'SunbayNetworkError';
+    Object.setPrototypeOf(this, new.target.prototype);
 
     if (causeOrRetryable instanceof Error) {
       this.cause = causeOrRetryable;

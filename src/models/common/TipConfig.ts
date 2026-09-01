@@ -29,6 +29,14 @@ export interface TipSuggestions {
  */
 export interface TipConfig {
   /**
+   * Whether to use SUNBAY platform's tip configuration.
+   * When true, Tapro uses the platform tip configuration for UI display and business logic,
+   * and all other tipConfig parameters (onScreenTip, tipMode, tipWithTax, suggestions) are ignored.
+   * @default false
+   */
+  useHostConfig?: boolean;
+
+  /**
    * Whether to show on-screen tip prompt
    */
   onScreenTip: boolean;

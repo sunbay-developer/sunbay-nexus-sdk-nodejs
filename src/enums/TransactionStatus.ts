@@ -46,6 +46,14 @@ export class TransactionStatus {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, TransactionStatus> = {
+    'I': TransactionStatus.INITIAL,
+    'P': TransactionStatus.PROCESSING,
+    'S': TransactionStatus.SUCCESS,
+    'F': TransactionStatus.FAIL,
+    'C': TransactionStatus.CLOSED,
+  };
+
   /**
    * Convert code to transaction status
    *
@@ -53,14 +61,7 @@ export class TransactionStatus {
    * @return transaction status, or undefined if code is invalid
    */
   public static fromCode(code: string): TransactionStatus | undefined {
-    const codeMap: Record<string, TransactionStatus> = {
-      'I': TransactionStatus.INITIAL,
-      'P': TransactionStatus.PROCESSING,
-      'S': TransactionStatus.SUCCESS,
-      'F': TransactionStatus.FAIL,
-      'C': TransactionStatus.CLOSED,
-    };
-    return codeMap[code];
+    return TransactionStatus.CODE_MAP[code];
   }
 }
 

@@ -33,13 +33,13 @@ yarn add @sunbay/sunbay-nexus-sdk
 
 ### 1. Initialize Client
 
-The `NexusClient` is thread-safe and can be reused across multiple requests. Create once and reuse:
+> ⚠️ **Important**: `NexusClient` maintains an internal HTTP connection pool. **Create one instance and reuse it** throughout your application. Creating a new client per request will bypass connection pooling, significantly hurting performance under load.
 
 **JavaScript (CommonJS)**
 ```javascript
 const { NexusClient } = require('@sunbay/sunbay-nexus-sdk');
 
-// Create once and reuse
+// ✅ Create once at startup, reuse everywhere
 const client = new NexusClient({
   apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
   baseUrl: 'https://open.sunbay.us',
@@ -48,14 +48,18 @@ const client = new NexusClient({
   maxRetries: 3,
 });
 
-// Use the client throughout your application
+// ❌ DON'T create a new client per request:
+// function handleOrder(order) {
+//   const client = new NexusClient({ ... }); // Bad! Wastes connections
+//   return client.sale(request);
+// }
 ```
 
 **TypeScript / ES Modules**
 ```typescript
 import { NexusClient } from '@sunbay/sunbay-nexus-sdk';
 
-// Create once and reuse
+// ✅ Create once at startup, reuse everywhere
 const client = new NexusClient({
   apiKey: process.env.SUNBAY_API_KEY || '{YOUR_API_KEY}',
   baseUrl: 'https://open.sunbay.us',
@@ -64,7 +68,7 @@ const client = new NexusClient({
   maxRetries: 3,
 });
 
-// Use the client throughout your application
+// ❌ DON'T create a new client per request
 ```
 
 ### 2. Sale Transaction
@@ -188,7 +192,20 @@ try {
 }
 ```
 
-`sale` and `auth` requests also accept `signatureEntryLocation: 'ON_SCREEN' | 'ON_RECEIPT'`; omit it to use the backend default.
+`sale`, `auth`, and `refund` (without reference) requests accept an optional `signatureConfig` to control signature behavior:
+
+```typescript
+const request: SaleRequest = {
+  // ... other fields
+  signatureConfig: {
+    useHostConfig: false,        // false = use this config; true (default) = use platform config
+    entryLocation: 'ON_SCREEN',  // 'ON_SCREEN' | 'ON_RECEIPT' | 'NONE'
+    threshold: 2500,             // signature required when amount >= 25.00 USD (2500 cents)
+  },
+};
+```
+
+> **Note**: The older `signatureEntryLocation` field is deprecated. Use `signatureConfig` instead for more control.
 
 ### 3. Query Transaction
 
@@ -260,6 +277,12 @@ All request classes support object literal syntax. The SDK provides the followin
 
 - `batchClose(request: BatchCloseRequest): Promise<BatchCloseResponse>` - Batch close
 - `batchQuery(request: BatchQueryRequest): Promise<BatchQueryResponse>` - Batch query
+- `batchCloseList(request: BatchCloseListRequest): Promise<BatchCloseListResponse>` - Query closed (settled) batch list
+
+### Merchant APIs
+
+- `merchantQuery(request: MerchantQueryRequest): Promise<MerchantQueryResponse>` - Query merchant information
+- `merchantTerminalsQuery(request: MerchantTerminalsQueryRequest): Promise<MerchantTerminalsQueryResponse>` - Query merchant terminals (token-based pagination, up to 100 per page)
 
 ### Online APIs (Hosted Payment Page & direct payment)
 
@@ -267,6 +290,8 @@ Checkout amounts use the smallest currency unit (same as semi-integration). See 
 
 - `createCheckoutSession(request: CreateCheckoutSessionRequest): Promise<CreateCheckoutSessionResponse>` — POST `/v1/checkout/create-session`; returns `checkoutUrl` and `expiresAt` (session valid 30 minutes)
 - `checkoutDirectPayment(request: CheckoutDirectPaymentRequest): Promise<CheckoutDirectPaymentResponse>` — POST `/v1/checkout/sale` (e.g. Google Pay / Apple Pay with `paymentMethod` and `cardEncryptedData`)
+- `onlineRefund(request: OnlineRefundRequest): Promise<OnlineRefundResponse>` — POST `/v1/checkout/refund`
+- `expireCheckoutSession(request: ExpireCheckoutSessionRequest): Promise<ExpireCheckoutSessionResponse>` — POST `/v1/checkout/expire-session`
 
 ## Error Handling
 

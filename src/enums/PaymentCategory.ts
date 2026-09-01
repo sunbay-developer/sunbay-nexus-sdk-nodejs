@@ -45,6 +45,14 @@ export class PaymentCategory {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, PaymentCategory> = {
+    'CARD': PaymentCategory.CARD,
+    'CARD-CREDIT': PaymentCategory.CARD_CREDIT,
+    'CARD-DEBIT': PaymentCategory.CARD_DEBIT,
+    'QR-MPM': PaymentCategory.QR_MPM,
+    'QR-CPM': PaymentCategory.QR_CPM,
+  };
+
   /**
    * Convert code to payment category
    *
@@ -52,14 +60,7 @@ export class PaymentCategory {
    * @return payment category, or undefined if code is invalid
    */
   public static fromCode(code: string): PaymentCategory | undefined {
-    const codeMap: Record<string, PaymentCategory> = {
-      'CARD': PaymentCategory.CARD,
-      'CARD-CREDIT': PaymentCategory.CARD_CREDIT,
-      'CARD-DEBIT': PaymentCategory.CARD_DEBIT,
-      'QR-MPM': PaymentCategory.QR_MPM,
-      'QR-CPM': PaymentCategory.QR_CPM,
-    };
-    return codeMap[code];
+    return PaymentCategory.CODE_MAP[code];
   }
 }
 

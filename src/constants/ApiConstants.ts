@@ -103,6 +103,24 @@ export class ApiConstants {
   public static readonly PATH_CHECKOUT_REFUND =
     ApiConstants.COMMON_PREFIX + '/checkout/refund';
 
+  /**
+   * Settlement batch close list API path
+   */
+  public static readonly PATH_BATCH_CLOSE_LIST =
+    ApiConstants.COMMON_PREFIX + '/settlement/batch-close-list';
+
+  /**
+   * Merchant query API path
+   */
+  public static readonly PATH_MERCHANT_QUERY =
+    ApiConstants.COMMON_PREFIX + '/merchant/query';
+
+  /**
+   * Merchant terminals query API path
+   */
+  public static readonly PATH_MERCHANT_TERMINALS_QUERY =
+    ApiConstants.COMMON_PREFIX + '/merchant/terminals/query';
+
   private constructor() {
     // Utility class, prevent instantiation
   }

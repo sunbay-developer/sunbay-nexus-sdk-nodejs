@@ -45,6 +45,14 @@ export class EntryMode {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, EntryMode> = {
+    'MANUAL': EntryMode.MANUAL,
+    'SWIPE': EntryMode.SWIPE,
+    'FALLBACK_SWIPE': EntryMode.FALLBACK_SWIPE,
+    'CONTACT': EntryMode.CONTACT,
+    'CONTACTLESS': EntryMode.CONTACTLESS,
+  };
+
   /**
    * Convert code to entry mode
    *
@@ -52,14 +60,7 @@ export class EntryMode {
    * @return entry mode, or undefined if code is invalid
    */
   public static fromCode(code: string): EntryMode | undefined {
-    const codeMap: Record<string, EntryMode> = {
-      'MANUAL': EntryMode.MANUAL,
-      'SWIPE': EntryMode.SWIPE,
-      'FALLBACK_SWIPE': EntryMode.FALLBACK_SWIPE,
-      'CONTACT': EntryMode.CONTACT,
-      'CONTACTLESS': EntryMode.CONTACTLESS,
-    };
-    return codeMap[code];
+    return EntryMode.CODE_MAP[code];
   }
 }
 

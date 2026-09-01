@@ -58,6 +58,13 @@ export interface IncrementalAuthRequest {
   notifyUrl?: string;
 
   /**
+   * Terminal event asynchronous notification URL. When provided, terminal status events
+   * (card swipe, signature, printing, etc.) will be sent to this URL in real-time during the transaction.
+   * Only effective when pushToTerminal is true.
+   */
+  terminalEventNotifyUrl?: string;
+
+  /**
    * Receipt print option. NONE: do not print; MERCHANT: merchant copy only; CUSTOMER: customer copy only; BOTH: merchant and customer copies. Default: "NONE"
    */
   printReceipt?: PrintReceipt;

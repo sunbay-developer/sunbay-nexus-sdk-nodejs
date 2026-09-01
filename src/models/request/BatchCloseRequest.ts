@@ -1,3 +1,5 @@
+import type { BatchClosePrintReceipt } from '../common/BatchClosePrintReceipt';
+
 /**
  * Batch close request
  *
@@ -38,5 +40,12 @@ export interface BatchCloseRequest {
    * Additional data, returned as-is, recommended to use JSON format
    */
   attach?: string;
+
+  /**
+   * Batch close report print option. Controls what report is printed after batch close.
+   * TOTAL: summary only; DETAIL: transaction details only; BOTH: summary + details; NONE: no report; AUTO: use SUNBAY platform configuration.
+   * When not provided, the SUNBAY platform configuration is used by default.
+   */
+  printReceipt?: BatchClosePrintReceipt;
 }
 

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as http from 'http';
 import * as https from 'https';
 import { ApiConstants } from '../constants/ApiConstants';
 import { SunbayBusinessError } from '../errors/SunbayBusinessError';
@@ -49,27 +50,20 @@ export class HttpClient {
     this.maxRetries = maxRetries;
     this.logger = logger || new DefaultLogger();
 
-    // Create HTTPS agent with connection pool
-    const agent = new https.Agent({
+    const agentOptions = {
       keepAlive: true,
-      maxSockets: maxTotal || 200,
-      maxFreeSockets: maxPerRoute || 20,
+      maxSockets: maxPerRoute || 20,
+      maxFreeSockets: Math.min(maxPerRoute || 20, 10),
+      maxTotalSockets: maxTotal || 200,
       timeout: connectTimeout,
-    });
+      scheduling: 'fifo' as const,
+    };
 
-    // Create axios instance
+    // Create axios instance with both HTTP and HTTPS agents
     this.axiosInstance = axios.create({
       timeout: readTimeout,
-      httpsAgent: agent,
-      headers: {
-        'User-Agent': UserAgentUtil.getUserAgent(),
-      },
-    });
-
-    // Add request interceptor
-    this.axiosInstance.interceptors.request.use((config) => {
-      this.addCommonHeaders(config);
-      return config;
+      httpAgent: new http.Agent(agentOptions),
+      httpsAgent: new https.Agent(agentOptions),
     });
   }
 
@@ -217,31 +211,12 @@ export class HttpClient {
     const requestMethod = config.method?.toUpperCase() || 'UNKNOWN';
     const requestUrl = config.url || '';
 
-    // Log request
-    // Note: Headers will be added by request interceptor before request is sent
-    // For logging, we create a copy of headers and add common headers to show complete header info
+    // Add common headers once — used for both the actual request and logging
+    this.addCommonHeaders(config);
+
+    // Log request (headers are already final, no duplication)
     if (this.logger.info) {
-      const headersForLogging: Record<string, any> = {};
-      
-      // Copy existing headers
-      if (config.headers) {
-        if (typeof config.headers === 'object') {
-          for (const key in config.headers) {
-            if (config.headers.hasOwnProperty(key)) {
-              headersForLogging[key] = config.headers[key];
-            }
-          }
-        }
-      }
-      
-      // Add common headers for logging (they will be added by interceptor anyway)
-      headersForLogging[HttpClient.HEADER_AUTHORIZATION] =
-        ApiConstants.AUTHORIZATION_BEARER_PREFIX + this.apiKey;
-      headersForLogging[HttpClient.HEADER_REQUEST_ID] = IdGenerator.generateRequestId();
-      headersForLogging[HttpClient.HEADER_TIMESTAMP] = String(Date.now());
-      headersForLogging[HttpClient.HEADER_USER_AGENT] = UserAgentUtil.getUserAgent();
-      
-      const headers = this.formatHeadersForLogging(headersForLogging);
+      const headers = this.formatHeadersForLogging(config.headers);
       const requestBody = config.data ? (typeof config.data === 'string' ? config.data : JSON.stringify(config.data)) : null;
       
       if (requestBody) {

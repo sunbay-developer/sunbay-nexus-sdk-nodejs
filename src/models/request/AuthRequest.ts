@@ -1,7 +1,7 @@
 import { AuthAmount } from '../common/AuthAmount';
 import { PaymentMethodInfo } from '../common/PaymentMethodInfo';
 import type { PrintReceipt } from '../common/PrintReceipt';
-import type { SignatureEntryLocation } from '../common/SignatureEntryLocation';
+import type { SignatureEntryLocation, SignatureConfig } from '../common/SignatureEntryLocation';
 
 /**
  * Authorization request
@@ -65,6 +65,12 @@ export interface AuthRequest {
   notifyUrl?: string;
 
   /**
+   * Terminal event asynchronous notification URL. When provided, terminal status events
+   * (card swipe, signature, printing, etc.) will be sent to this URL in real-time during the transaction.
+   */
+  terminalEventNotifyUrl?: string;
+
+  /**
    * Transaction expiration time, format: yyyy-MM-DDTHH:mm:ss+TIMEZONE (ISO 8601). Transaction will be closed if payment is not completed after this time. Minimum 3 minutes, maximum 1 day, default 1 day if not provided
    */
   timeExpire?: string;
@@ -75,7 +81,14 @@ export interface AuthRequest {
   printReceipt?: PrintReceipt;
 
   /**
-   * Signature entry location. ON_SCREEN: terminal screen signature; ON_RECEIPT: receipt signature. Default: backend configuration
+   * Signature entry location. ON_SCREEN: terminal screen signature; ON_RECEIPT: receipt signature; NONE: no signature. Default: backend configuration
+   * @deprecated Use {@link signatureConfig} instead.
    */
   signatureEntryLocation?: SignatureEntryLocation;
+
+  /**
+   * Signature configuration. Replaces the deprecated signatureEntryLocation field.
+   * When not provided, the SUNBAY platform signature configuration is used by default.
+   */
+  signatureConfig?: SignatureConfig;
 }

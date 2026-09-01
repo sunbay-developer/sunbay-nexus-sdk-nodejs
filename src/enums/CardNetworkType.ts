@@ -45,6 +45,14 @@ export class CardNetworkType {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, CardNetworkType> = {
+    'CREDIT': CardNetworkType.CREDIT,
+    'DEBIT': CardNetworkType.DEBIT,
+    'EBT': CardNetworkType.EBT,
+    'EGC': CardNetworkType.EGC,
+    'UNKNOWN': CardNetworkType.UNKNOWN,
+  };
+
   /**
    * Convert code to card network type
    *
@@ -52,14 +60,7 @@ export class CardNetworkType {
    * @return card network type, or undefined if code is invalid
    */
   public static fromCode(code: string): CardNetworkType | undefined {
-    const codeMap: Record<string, CardNetworkType> = {
-      'CREDIT': CardNetworkType.CREDIT,
-      'DEBIT': CardNetworkType.DEBIT,
-      'EBT': CardNetworkType.EBT,
-      'EGC': CardNetworkType.EGC,
-      'UNKNOWN': CardNetworkType.UNKNOWN,
-    };
-    return codeMap[code];
+    return CardNetworkType.CODE_MAP[code];
   }
 }
 

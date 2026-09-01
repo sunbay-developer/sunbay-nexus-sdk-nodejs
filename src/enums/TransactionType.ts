@@ -55,6 +55,16 @@ export class TransactionType {
     return this.code;
   }
 
+  private static readonly CODE_MAP: Record<string, TransactionType> = {
+    'SALE': TransactionType.SALE,
+    'AUTH': TransactionType.AUTH,
+    'FORCED_AUTH': TransactionType.FORCED_AUTH,
+    'INCREMENTAL': TransactionType.INCREMENTAL,
+    'POST_AUTH': TransactionType.POST_AUTH,
+    'REFUND': TransactionType.REFUND,
+    'VOID': TransactionType.VOID,
+  };
+
   /**
    * Convert code to transaction type
    *
@@ -62,16 +72,7 @@ export class TransactionType {
    * @return transaction type, or undefined if code is invalid
    */
   public static fromCode(code: string): TransactionType | undefined {
-    const codeMap: Record<string, TransactionType> = {
-      'SALE': TransactionType.SALE,
-      'AUTH': TransactionType.AUTH,
-      'FORCED_AUTH': TransactionType.FORCED_AUTH,
-      'INCREMENTAL': TransactionType.INCREMENTAL,
-      'POST_AUTH': TransactionType.POST_AUTH,
-      'REFUND': TransactionType.REFUND,
-      'VOID': TransactionType.VOID,
-    };
-    return codeMap[code];
+    return TransactionType.CODE_MAP[code];
   }
 }
 
