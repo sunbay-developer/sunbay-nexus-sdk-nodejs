@@ -7,6 +7,11 @@ import { TerminalTidItem } from './TerminalTidItem';
  */
 export interface TerminalItem {
   /**
+   * Terminal ID
+   */
+  terminalId?: string;
+
+  /**
    * Terminal serial number
    */
   sn?: string;

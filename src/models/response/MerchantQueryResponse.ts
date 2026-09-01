@@ -23,16 +23,6 @@ export interface MerchantQueryResponse extends BaseResponse {
   mcc?: string;
 
   /**
-   * URL of the merchant logo
-   */
-  logo?: string;
-
-  /**
-   * URL of the merchant's small icon / favicon
-   */
-  smallLogo?: string;
-
-  /**
    * ISO 3166-1 alpha-3 country code
    */
   country?: string;
@@ -84,8 +74,6 @@ export class MerchantQueryResponseImpl extends BaseResponseImpl implements Merch
   public merchantId?: string;
   public dbaName?: string;
   public mcc?: string;
-  public logo?: string;
-  public smallLogo?: string;
   public country?: string;
   public stateName?: string;
   public cityName?: string;
